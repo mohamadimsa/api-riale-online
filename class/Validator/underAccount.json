@@ -1,0 +1,22 @@
+{
+  "name": {
+      "name": "name",
+      "required": true
+  },
+  "forename": {
+      "name": "forename",
+      "required": true
+  },
+  "password": {
+      "name": "password",
+      "required": true
+  },
+  "email": {
+      "name": "email",
+      "required": true
+  },
+  "initiator_uuid": {
+      "name": "initiator_uuid",
+      "required": true
+  }
+}

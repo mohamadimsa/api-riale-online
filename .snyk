@@ -1,0 +1,116 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.22.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-D3COLOR-1076592:
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-scale > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2022-01-12T00:52:54.597Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-zoom > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-brush > d3-transition > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-zoom > d3-transition > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-brush > d3-transition > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-zoom > d3-transition > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-transition > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-scale-chromatic > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-transition > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-brush > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-scale-chromatic > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-zoom > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-brush > d3-transition > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-zoom > d3-transition > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-brush > d3-transition > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > dagre-d3 > d3 > d3-zoom > d3-transition > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-scale-chromatic > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:38:47.010Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-transition > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-scale-chromatic > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-transition > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-brush > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+    - prisma-erd-generator > @mermaid-js/mermaid-cli > mermaid > d3 > d3-scale > d3-interpolate > d3-color:
+        reason: None given
+        expires: '2021-12-26T21:42:16.057Z'
+  SNYK-JS-JSONSCHEMA-1920922:
+    - email-templates > juice > web-resource-inliner > request > http-signature > jsprim > json-schema:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+  SNYK-JS-NETMASK-1089716:
+    - mailgun-js > proxy-agent > pac-proxy-agent > pac-resolver > netmask:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+  SNYK-JS-NTHCHECK-1586032:
+    - email-templates > juice > cheerio > css-select > nth-check:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+  SNYK-JS-PACRESOLVER-1564857:
+    - mailgun-js > proxy-agent > pac-proxy-agent > pac-resolver:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+  SNYK-JS-SHELLQUOTE-1766506:
+    - prismix > @prisma/sdk > shell-quote:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+  SNYK-JS-TAR-1579152:
+    - prismix > @prisma/sdk > tar:
+        reason: None given
+        expires: '2021-12-26T21:38:47.011Z'
+  SNYK-JS-TAR-1579155:
+    - prismix > @prisma/sdk > tar:
+        reason: None given
+        expires: '2021-12-26T21:38:47.012Z'
+  SNYK-JS-CSSWHAT-1298035:
+    - email-templates > juice > cheerio > css-select > css-what:
+        reason: None given
+        expires: '2021-12-26T21:42:16.056Z'
+patch: {}

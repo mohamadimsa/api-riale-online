@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model user {
+  name                   String                  @db.VarChar(255)
+  password               String                  @db.VarChar(255)
+  address                String?                 @db.VarChar(255)
+  city                   String?                 @db.VarChar(255)
+  country                String?                 @db.VarChar(255)
+  countryPhoneNumber     String?                 @db.VarChar(6)
+  createdAt              DateTime                @default(now()) @db.Timestamp(6)
+  email                  String                  @unique(map: "User_email_key") @db.VarChar(255)
+  forename               String                  @db.VarChar(255)
+  isActive               Boolean                 @default(false)
+  isBanned               Boolean                 @default(false)
+  isConnected            Boolean                 @default(false)
+  multiPlatform          Boolean                 @default(true)
+  multiPlatformNumber    Int?                    @default(2)
+  phoneNumber            String?                 @db.VarChar(20)
+  role                   String?                 @db.VarChar(50)
+  updatedAt              DateTime                @default(now()) @updatedAt @db.Timestamp(6)
+  uuid                   String                  @id @default(uuid())
+  zipCode                String?                 @db.VarChar(255)
+  deleted                Boolean                 @default(false)
+  isSuspended            Boolean                 @default(false)
+  avatar                 String?                 @db.LongText
+  socketId               String                  @default("") @db.VarChar(255)
+  connected              connected?
+  notifications          notifications[]
+}
+
+
+model connected {
+  uuid      String      @id @default(uuid())
+  user_uuid String      @unique
+  createdAt DateTime    @default(now()) @db.Timestamp(6)
+  updatedAt DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  user      user        @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+  ipAddress ipAddress[]
+}
+
+model ipAddress {
+  uuid           String      @id @default(uuid())
+  connected_uuid String
+  isConnected    Boolean     @default(false)
+  token          String      @db.LongText
+  ipAddress      String      @unique @db.VarChar(255)
+  connected      connected[] @relation(fields: [connected_uuid], references: [uuid])
+  updatedAt      DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+}
+
+model tentavive {
+  uuid           String @id @default(uuid())
+  user_uuid      String @unique @db.VarChar(255)
+  sms            Int?
+  wrong_password Int?
+}
+
+model actionKey {
+  sn     String @id @default(uuid())
+  exp    BigInt
+  action String
+  key    String @unique @db.VarChar(255)
+  keyUrl String
+  user   String
+}
+
+
+model notifications {
+  uuid      String   @id @default(uuid())
+  message   String   @db.LongText
+  isRead    Boolean  @default(false)
+  user_uuid String
+  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+}

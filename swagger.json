@@ -1,0 +1,63 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "kraaken",
+      "version": "1.0.7",
+      "license": {
+        "name": "ISC"
+      },
+      "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3).\n\nApi of kraken"
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "summary": "/",
+          "responses": {},
+          "tags": []
+        }
+      },
+      "/test": {
+        "get": {
+          "summary": "/test",
+          "responses": {},
+          "tags": []
+        }
+      },
+      "/test-not-found": {
+        "get": {
+          "summary": "/test-not-found",
+          "responses": {},
+          "tags": []
+        }
+      },
+      "/user/login": {
+        "post": {
+          "summary": "/user/login",
+          "responses": {},
+          "tags": []
+        }
+      },
+      "/user/register": {
+        "post": {
+          "summary": "/user/register",
+          "responses": {},
+          "tags": []
+        }
+      },
+      "/user/register/under-account": {
+        "post": {
+          "summary": "/user/register/under-account",
+          "responses": {},
+          "tags": []
+        }
+      },
+      "/user/refresh-token": {
+        "post": {
+          "summary": "/user/refresh-token",
+          "responses": {},
+          "tags": []
+        }
+      }
+    },
+    "tags": []
+  }

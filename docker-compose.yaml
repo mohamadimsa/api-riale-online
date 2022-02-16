@@ -1,0 +1,44 @@
+version: "3"
+services:
+  web:
+    container_name: kraaken
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "7001:7001"
+    expose:
+      - "7001"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - kraaken-network
+  db:
+    container_name: kraaken-db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'kraaken'
+      MYSQL_ROOT_PASSWORD: '1234'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    networks:
+      - kraaken-network
+  redis:
+    container_name: kraaken-redis
+    image: redis:alpine
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'
+    networks:
+      - kraaken-network
+
+networks:
+  kraaken-network:

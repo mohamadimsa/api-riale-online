@@ -1,0 +1,26 @@
+{
+  "theme": {
+      "name": "theme",
+      "required": true
+  },
+  "filter": {
+      "name": "filter",
+      "required": false
+  },
+  "contact": {
+      "name": "contact",
+      "required": false
+  },
+  "contactEmail": {
+      "name": "contactEmail",
+      "required": true
+  },
+  "emailCC": {
+      "name": "emailCC",
+      "required": false
+  },
+  "user_uuid": {
+    "name": "user_uuid",
+    "required": false
+  }
+}

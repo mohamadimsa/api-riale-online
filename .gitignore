@@ -1,0 +1,6 @@
+/node_modules
+/.env
+/prisma/docs/*
+/.dccache
+/public/images/avatar/*
+public/documents/*

@@ -5,31 +5,35 @@ const function_actionKey = require("$services/function/actionKey");
 const wrongPassword = require("$services/security/wrongPassword");
 const screen = require("$services/security/screen");
 const yup = require("yup");
-const Kraaken = require('$class/Kraaken')
+const Kraaken = require("$class/Kraaken");
 
 const Login = async (req, res) => {
   try {
-    const kraaken = new Kraaken()
     const session = req.session;
 
     const schema = yup.object().shape({
-      email: yup.string().email().required(),
+      identifiant: yup.string().required(),
       password: yup.string().required(),
-    })
+    });
 
-    if (! await schema.validate({ email: req.body.email, password: req.body.password })){
+    if (
+      !(await schema.validate({
+        identifiant: req.body.identifiant,
+        password: req.body.password,
+      }))
+    ) {
       return res.status(400).json({
-        message: 'Bad Request',
-        errors: schema.errors
-      })
+        message: "Bad Request",
+        errors: schema.errors,
+      });
     }
 
     /**
      * @description creating credentials
-     * @type {{password, email}}
+     * @type {{password, identifiant}}
      */
     const credentials = {
-      email: req.body.email,
+      identifiant: req.body.identifiant,
       password: req.body.password,
     };
 
@@ -39,7 +43,7 @@ const Login = async (req, res) => {
      */
     const user = await db.user.findUnique({
       where: {
-        email: credentials.email,
+        id_user: credentials.identifiant,
       },
     });
     if (!user) {
@@ -102,14 +106,13 @@ const Login = async (req, res) => {
       return await screen(req, res, user, token);
     } else {
       await db.notifications.create({
-        data:{
+        data: {
           message: "A user tried to login with wrong credentials",
           user_uuid: user.uuid,
         },
-      })
+      });
       await wrongPassword.wrongPassword(user.uuid);
 
-     
       /**
        * @description Sending error to client
        */

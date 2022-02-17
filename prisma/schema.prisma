@@ -38,28 +38,28 @@ model user {
 }
 
 model office {
-  uuid           String   @id @default(uuid())
-  state          String
-  commentState   String?
-  officeName     String
-  country        String
-  address        String?
-  city           String
-  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  uuid             String      @id @default(uuid())
+  state            String
+  commentState     String?
+  officeName       String
+  country          String
+  address          String?
+  city             String
+  createdAt        DateTime    @default(now()) @db.Timestamp(6)
   number_employees Int
-  updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
-  identification String @unique
-  employees    employees[]
+  updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  identification   String      @unique
+  employees        employees[]
 }
 
-model employees{
-  uuid           String   @id @default(uuid())
-  state          String
-  identification_employees String @unique
-  commentState   String?
-  role           String?
-  office_uuid    String
-  office         office     @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
+model employees {
+  uuid                     String  @id @default(uuid())
+  state                    String
+  identification_employees String  @unique
+  commentState             String?
+  role                     String?
+  office_uuid              String
+  office                   office  @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
 
 }
 

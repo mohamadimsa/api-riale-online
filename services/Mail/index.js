@@ -61,7 +61,7 @@ module.exports = {
             sendEmail({
               to: result.context.email,
               html: result.email.html,
-              from: "noreply@kraaken.fr",
+              from: "noreply@Bank-online.fr",
               subject: result.context.subject,
               cc: result.context.cc,
             });

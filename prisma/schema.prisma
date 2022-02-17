@@ -32,9 +32,9 @@ model user {
   avatar              String?         @db.LongText
   socketId            String          @default("") @db.VarChar(255)
   id_user             String          @unique
+  accounts            account[]
   connected           connected?
   notifications       notifications[]
-  accounts            account[]
 }
 
 model office {
@@ -61,13 +61,13 @@ model employees {
   office_uuid              String
   office                   office  @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
 
+  @@index([office_uuid], map: "employees_office_uuid_fkey")
 }
 
 model account {
   uuid           String   @id @default(uuid())
   number_account String   @unique
   user_uuid      String
-  user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
   createBy       String
   type           String
   state          String
@@ -75,6 +75,9 @@ model account {
   updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   comment_state  String?
   number_office  String
+  user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([user_uuid], map: "account_user_uuid_fkey")
 }
 
 model historicalOperation {
@@ -120,7 +123,6 @@ model transfer {
   comment_state String?
   validateby    String?
   updatedAt     DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
-
 }
 
 model historicalInternal {
@@ -131,7 +133,6 @@ model historicalInternal {
   comment        String?
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   office_uuid    String?
-
 }
 
 model connected {
@@ -149,8 +150,8 @@ model ipAddress {
   isConnected    Boolean     @default(false)
   token          String      @db.LongText
   ipAddress      String      @unique @db.VarChar(255)
-  connected      connected[] @relation(fields: [connected_uuid], references: [uuid])
   updatedAt      DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  connected      connected[]
 }
 
 model tentavive {
@@ -174,6 +175,8 @@ model notifications {
   message   String   @db.LongText
   isRead    Boolean  @default(false)
   user_uuid String
-  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
   createdAt DateTime @default(now()) @db.Timestamp(6)
+  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([user_uuid], map: "notifications_user_uuid_fkey")
 }

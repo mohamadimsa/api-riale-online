@@ -1,6 +1,7 @@
 const db = require("$db");
 const bcrypt = require("bcrypt");
 const service_email = require("$services/Mail/index");
+const { generateIdentifiant } = require("$services/function/utile");
 const generator = require("generate-password");
 const yup = require("yup");
 
@@ -17,20 +18,25 @@ const register = async (req, res) => {
     name: yup.string().required(),
     forename: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup.string().required()
-  })
+    password: yup.string().required(),
+  });
 
-  
-    if (! await schema.validate({password: req.body.password, name: name, forename: forename, email: email})){
-      return res.status(400).json({
-        message: 'Bad Request',
-        errors: schema.errors
-      })
-    }
-
+  if (
+    !(await schema.validate({
+      password: req.body.password,
+      name: name,
+      forename: forename,
+      email: email,
+    }))
+  ) {
+    return res.status(400).json({
+      message: "Bad Request",
+      errors: schema.errors,
+    });
+  }
 
   /**
-   * @description si le passsword existe pas on n'en genére un 
+   * @description si le passsword existe pas on n'en genére un
    */
   const passwordGenarte = generator.generate({ length: 10, numbers: true });
   const password = req.body.password ? req.body.password : passwordGenarte;
@@ -50,6 +56,7 @@ const register = async (req, res) => {
       email,
       password: hash,
       role: req.body.role || '["ROLE_USER"]',
+      id_user: generateIdentifiant(),
     };
 
     try {
@@ -58,7 +65,6 @@ const register = async (req, res) => {
        */
       await db.user.create({ data: user });
     } catch (e) {
-   
       /**
        * @description Return status 500
        */
@@ -86,7 +92,7 @@ const register = async (req, res) => {
       {
         email: user.email,
         password: password,
-        identifiant: user.email,
+        identifiant: user.id_user,
         subject: "Première connexion",
         name: user.name,
       },

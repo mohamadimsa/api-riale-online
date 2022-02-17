@@ -19,7 +19,8 @@ module.exports = [
   {
     url:"/user/register",
     method: "post",
-    func : [Controller["UserController@register"]]
+    func : [Controller["UserController@register"]],
+    perm: ['BANK_ADMIN','OFFICE_ADMIN','OFFICE_EMPLOYEE','BANK_EMPLOYEE']
   },
 
   /**

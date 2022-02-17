@@ -1,6 +1,8 @@
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const Sentry = require("$sentry");
+const { uuid } = require("uuidv4");
+const { checkRole } = require("$services/function/utile");
 
 let associationObj = {
   get: {},
@@ -43,7 +45,9 @@ const checkUser = (req, res, next) => {
     //si le token n'hesiste pas on renvois un message d'erreur
     if (!auth) {
       return res.status(401).send("Must Auth");
-    } else if (perm.includes('*', 0)) {
+    } else if (perm.includes("*", 0)) {
+      req.user = payload.uuid;
+      req.role = payload.role;
       return next();
     } else {
       let token = auth.split(" ");
@@ -58,6 +62,8 @@ const checkUser = (req, res, next) => {
             res.status(400).send("Bad request: Token invalid");
             //on verifie que le token a bien un role autoriser
           } else if (checkRole(perm, JSON.parse(payload.role))) {
+            req.user = payload.uuid;
+            req.role = payload.role;
             return next();
           } else {
             res.status(401).send("Unauthorized");
@@ -67,26 +73,3 @@ const checkUser = (req, res, next) => {
     }
   }
 };
-
-/**
- *
- * @param {array} roleRoute role autoriser pour la route
- * @param {array} roleUser  role user
- * cette fonction nous permet de verifier si un ulisateur a bien les droit d'accees a une route
- * elle prend aussi le cas ou un utilisateur peut avoir plusieur role
- */
-function checkRole(roleRoute, roleUser) {
-  // au depart on fixe l'autorisation a une false
-  let authorization = false;
-  //on boucle sur les role que pocede l'utilisateur
-  for (let index = 0; index < roleUser.length; index++) {
-    let result = roleRoute.filter((word) => word == roleUser[index]);
-    //si l'user pocéde au moin une permission qui match avec les autorisation de la route
-    //on passe authorization a true
-    if (result.length > 0) {
-      index = roleUser.length;
-      authorization = true;
-    }
-  }
-  return authorization;
-}

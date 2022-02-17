@@ -31,7 +31,7 @@ model user {
   isSuspended         Boolean         @default(false)
   avatar              String?         @db.LongText
   socketId            String          @default("") @db.VarChar(255)
-  id_user             String          @unique
+  id_user             String?         @unique
   accounts            account[]
   connected           connected?
   notifications       notifications[]

@@ -7,36 +7,133 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 model user {
-  name                   String                  @db.VarChar(255)
-  password               String                  @db.VarChar(255)
-  address                String?                 @db.VarChar(255)
-  city                   String?                 @db.VarChar(255)
-  country                String?                 @db.VarChar(255)
-  countryPhoneNumber     String?                 @db.VarChar(6)
-  createdAt              DateTime                @default(now()) @db.Timestamp(6)
-  email                  String                  @unique(map: "User_email_key") @db.VarChar(255)
-  forename               String                  @db.VarChar(255)
-  isActive               Boolean                 @default(false)
-  isBanned               Boolean                 @default(false)
-  isConnected            Boolean                 @default(false)
-  multiPlatform          Boolean                 @default(true)
-  multiPlatformNumber    Int?                    @default(2)
-  phoneNumber            String?                 @db.VarChar(20)
-  role                   String?                 @db.VarChar(50)
-  updatedAt              DateTime                @default(now()) @updatedAt @db.Timestamp(6)
-  uuid                   String                  @id @default(uuid())
-  zipCode                String?                 @db.VarChar(255)
-  deleted                Boolean                 @default(false)
-  isSuspended            Boolean                 @default(false)
-  avatar                 String?                 @db.LongText
-  socketId               String                  @default("") @db.VarChar(255)
-  connected              connected?
-  notifications          notifications[]
+  name                String          @db.VarChar(255)
+  password            String          @db.VarChar(255)
+  address             String?         @db.VarChar(255)
+  city                String?         @db.VarChar(255)
+  country             String?         @db.VarChar(255)
+  countryPhoneNumber  String?         @db.VarChar(6)
+  createdAt           DateTime        @default(now()) @db.Timestamp(6)
+  email               String          @unique(map: "User_email_key") @db.VarChar(255)
+  forename            String          @db.VarChar(255)
+  isActive            Boolean         @default(false)
+  isBanned            Boolean         @default(false)
+  isConnected         Boolean         @default(false)
+  multiPlatform       Boolean         @default(true)
+  multiPlatformNumber Int?            @default(2)
+  phoneNumber         String?         @db.VarChar(20)
+  role                String?         @db.VarChar(50)
+  updatedAt           DateTime        @default(now()) @updatedAt @db.Timestamp(6)
+  uuid                String          @id @default(uuid())
+  zipCode             String?         @db.VarChar(255)
+  deleted             Boolean         @default(false)
+  isSuspended         Boolean         @default(false)
+  avatar              String?         @db.LongText
+  socketId            String          @default("") @db.VarChar(255)
+  id_user             String          @unique
+  accounts            account[]
+  connected           connected?
+  notifications       notifications[]
 }
 
+model office {
+  uuid             String      @id @default(uuid())
+  state            String
+  commentState     String?
+  officeName       String
+  country          String
+  address          String?
+  city             String
+  createdAt        DateTime    @default(now()) @db.Timestamp(6)
+  number_employees Int
+  updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  identification   String      @unique
+  employees        employees[]
+}
+
+model employees {
+  uuid                     String  @id @default(uuid())
+  state                    String
+  identification_employees String  @unique
+  commentState             String?
+  role                     String?
+  office_uuid              String
+  office                   office  @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([office_uuid], map: "employees_office_uuid_fkey")
+}
+
+model account {
+  uuid           String   @id @default(uuid())
+  number_account String   @unique
+  user_uuid      String
+  createBy       String
+  type           String
+  state          String
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  comment_state  String?
+  number_office  String
+  user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([user_uuid], map: "account_user_uuid_fkey")
+}
+
+model historicalOperation {
+  uuid           String   @id @default(uuid())
+  number_account String
+  reference      String   @unique
+  type           String
+  amount         Int
+  money          String
+  label          String
+  createBy       String
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  state          String
+  comment_state  String?
+  updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+}
+
+model withdrawalDeposit {
+  uuid          String   @id @default(uuid())
+  reference     String   @unique
+  type          String
+  number_office String
+  user_uuid     String
+  createby      String
+  amount        Int
+  money         String
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
+}
+
+model transfer {
+  uuid          String   @id @default(uuid())
+  reference     String   @unique
+  type          String
+  number_office String?
+  message       String?
+  creditor      String
+  debtor        String
+  createby      String
+  amount        Int
+  money         String
+  createdAt     DateTime @default(now()) @db.Timestamp(6)
+  state         String
+  comment_state String?
+  validateby    String?
+  updatedAt     DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+}
+
+model historicalInternal {
+  uuid           String   @id @default(uuid())
+  number_account String?
+  user_uuid      String
+  action_type    String
+  comment        String?
+  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  office_uuid    String?
+}
 
 model connected {
   uuid      String      @id @default(uuid())
@@ -53,8 +150,8 @@ model ipAddress {
   isConnected    Boolean     @default(false)
   token          String      @db.LongText
   ipAddress      String      @unique @db.VarChar(255)
-  connected      connected[] @relation(fields: [connected_uuid], references: [uuid])
   updatedAt      DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  connected      connected[]
 }
 
 model tentavive {
@@ -73,12 +170,13 @@ model actionKey {
   user   String
 }
 
-
 model notifications {
   uuid      String   @id @default(uuid())
   message   String   @db.LongText
   isRead    Boolean  @default(false)
   user_uuid String
-  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
   createdAt DateTime @default(now()) @db.Timestamp(6)
+  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([user_uuid], map: "notifications_user_uuid_fkey")
 }

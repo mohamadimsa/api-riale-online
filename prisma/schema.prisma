@@ -58,6 +58,8 @@ model employees {
   identification_employees String  @unique
   commentState             String?
   role                     String?
+  email                    String  @unique() @db.VarChar(255)
+  user_uuid                String
   office_uuid              String
   office                   office  @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
 

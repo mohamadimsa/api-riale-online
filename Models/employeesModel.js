@@ -6,7 +6,7 @@ const db = require("$db");
  */
 const createEmployee = async (data) => {
   try {
-    return await db.employees.create()({ data: data });
+    return await db.employees.create({ data: data });
   } catch (error) {
     console.log(error.toString());
     return false;

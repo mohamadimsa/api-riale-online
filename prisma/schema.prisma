@@ -35,6 +35,24 @@ model user {
   accounts            account[]
   connected           connected?
   notifications       notifications[]
+  employee            employees?
+}
+
+model bank {
+  uuid             String      @id @default(uuid())
+  state            String
+  commentState     String?
+  officeName       String
+  country          String
+  address          String?
+  city             String
+  createdAt        DateTime    @default(now()) @db.Timestamp(6)
+  number_employees Int
+  updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  identification   String      @unique
+  createby         String
+  employees        employees[]
+  offices          office[]
 }
 
 model office {
@@ -49,7 +67,10 @@ model office {
   number_employees Int
   updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   identification   String      @unique
+  createby         String
+  bank_uuid        String
   employees        employees[]
+  bank             bank        @relation(fields: [bank_uuid], references: [uuid], onDelete: Cascade)
 }
 
 model employees {
@@ -59,9 +80,13 @@ model employees {
   commentState             String?
   role                     String?
   email                    String  @unique() @db.VarChar(255)
-  user_uuid                String
-  office_uuid              String
-  office                   office  @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
+  user_uuid                String  @unique
+  office_uuid              String?
+  bank_uuid                String
+  password                 String
+  bank                     bank    @relation(fields: [bank_uuid], references: [uuid])
+  office                   office? @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
+  user                     user    @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
 
   @@index([office_uuid], map: "employees_office_uuid_fkey")
 }
@@ -133,6 +158,7 @@ model historicalInternal {
   user_uuid      String
   action_type    String
   comment        String?
+  createby       String
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   office_uuid    String?
 }

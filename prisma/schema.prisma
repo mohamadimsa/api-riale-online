@@ -68,9 +68,9 @@ model office {
   updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   identification   String      @unique
   createby         String
-  bank_uuid        String
+  bank_uuid        String?
   employees        employees[]
-  bank             bank        @relation(fields: [bank_uuid], references: [uuid], onDelete: Cascade)
+  bank             bank?       @relation(fields: [bank_uuid], references: [uuid], onDelete: Cascade)
 }
 
 model employees {
@@ -82,9 +82,9 @@ model employees {
   email                    String  @unique() @db.VarChar(255)
   user_uuid                String  @unique
   office_uuid              String?
-  bank_uuid                String
+  bank_uuid                String?
   password                 String
-  bank                     bank    @relation(fields: [bank_uuid], references: [uuid])
+  bank                     bank?    @relation(fields: [bank_uuid], references: [uuid])
   office                   office? @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
   user                     user    @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
 

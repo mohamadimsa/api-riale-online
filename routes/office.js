@@ -11,8 +11,7 @@ module.exports = [
     method: "post",
     func: [Controller["OfficeController@create"]],
     functionName: "create",
-    perm: ['BANK_ADMIN']
+    perm: ['BANK_ADMIN','SUPERVISOR']
     
   },
-
 ];

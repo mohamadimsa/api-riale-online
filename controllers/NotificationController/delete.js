@@ -1,9 +1,8 @@
 const Sentry = require('$sentry');
 const db = require('$db');
 const service_email = require("$services/Mail/index");
-const Validator = require("$class/Validator");
 const JWT = require('jsonwebtoken')
-const Kraaken = require('$class/Kraaken');
+
 const yup = require('yup')
 const {sendNotification} = require("../../services/system/notification/socket/connection");
 
@@ -73,8 +72,7 @@ const DeleteNotificationController = async (req, res) => {
          * @type {Kraaken|prisma}
          * @description Send error to kraaken
          */
-        const kraaken = new Kraaken()
-        await kraaken.captureError(err);
+    
 
         /**
          * @description returning an error from request

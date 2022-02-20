@@ -11,7 +11,8 @@
     "$services": "./services",
     "$factory": "./services/Factory/Fake/",
     "$sentry": "./node_modules/@sentry/node",
-    "$app": "./app.js"
+    "$app": "./app.js",
+    "$class": "./class"
   },
   "dependencies": {
     "@linode/api-v4": "^0.64.0",
@@ -39,6 +40,7 @@
     "express": "^4.17.1",
     "express-actuator": "^1.8.0",
     "express-fileupload": "^1.2.1",
+    "express-oas-generator": "^1.0.41",
     "express-session": "^1.17.2",
     "faker": "^5.5.3",
     "generate-password": "^1.7.0",
@@ -70,6 +72,8 @@
     "redis": "^4.0.0",
     "socket.io": "^4.4.0",
     "soracom": "^0.0.3",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
     "tar": "^6.1.9",
     "twilio": "^3.71.1",
     "uuid": "^8.3.2",

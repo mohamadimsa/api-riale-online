@@ -46,9 +46,16 @@ const checkUser = (req, res, next) => {
     if (!auth) {
       return res.status(401).send("Must Auth");
     } else if (perm.includes("*", 0)) {
-      req.user = payload.uuid;
-      req.role = payload.role;
-      return next();
+      let token = auth.split(" ");
+      jwt.verify(token[1], process.env.JWT_SECRET, (err, payload) => {
+        if (err) {
+          res.status(400).send("Bad request: Token invalid");
+          //on verifie que le token a bien un role autoriser
+        }
+        req.user = payload.uuid;
+        req.role = payload.role;
+        return next();
+      });
     } else {
       let token = auth.split(" ");
       //on verifie bien qu'on a bearer et le token sinn accee refuser

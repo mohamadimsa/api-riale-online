@@ -12,6 +12,16 @@ const createBank = async (data) => {
   }
 };
 
+const getBanks = async (data) => {
+  try {
+    return await db.bank.findMany();
+  } catch (error) {
+    console.log(error.toString());
+    return false;
+  }
+};
+
 module.exports = {
   createBank,
+  getBanks,
 };

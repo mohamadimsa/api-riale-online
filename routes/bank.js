@@ -14,4 +14,16 @@ module.exports = [
     perm: ['SUPERVISOR']
     
   },
+  /**
+   * cette route nous permet de recuperer tous les bank dispo
+   * @Route :/bank
+   * @Method ; get
+   */
+  {
+    url: "/banks",
+    method: "get",
+    func: [Controller["BankController@getAll"]],
+    functionName: "getAll",
+  
+  }
 ];

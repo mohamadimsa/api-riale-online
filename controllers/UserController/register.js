@@ -56,7 +56,6 @@ const register = async (req, res) => {
       email,
       password: hash,
       role: req.body.role || '["ROLE_USER"]',
-      id_user: generateIdentifiant(),
     };
 
     try {

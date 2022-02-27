@@ -44,20 +44,20 @@ const create = async (req, res) => {
     });
 
     const bank = await createBank({
-        state: req.body.state,
-        officeName: req.body.officeName,
-        country: req.body.country,
-        address: req.body.address,
-        city: req.body.city,
-        number_employees: req.body.number_employees,
-        commentState: req.body.commentState,
-        createby : req.user,
-        identification: "im" + generateIdentifiant(),
-        state: "en cours de validation",
-        commentState:
-          "en attente de validations du compte par le gérant de la bank",
-      });
-  
+      state: req.body.state,
+      officeName: req.body.officeName,
+      country: req.body.country,
+      address: req.body.address,
+      city: req.body.city,
+      number_employees: req.body.number_employees,
+      commentState: req.body.commentState,
+      createby: req.user,
+      identification: "im" + generateIdentifiant(),
+      state: "en cours de validation",
+      commentState:
+        "en attente de validations du compte par le gérant de la bank",
+    });
+
     if (!bank) {
       return res.status(400).json({
         error: "insertion bd",
@@ -67,14 +67,14 @@ const create = async (req, res) => {
 
     const password = generator.generate({ length: 10, numbers: true });
     bcrypt.hash(password, 10, async (err, hash) => {
-        console.log(hash)
+      console.log(hash);
       const user = await createUser({
         name: req.body.user.name,
         forename: req.body.user.forename,
         email: req.body.user.email,
         password: hash,
-        role: '["ROLE_USER"]'})
-      
+        role: '["ROLE_USER"]',
+      });
 
       if (!user) {
         return res.status(400).json({
@@ -83,30 +83,28 @@ const create = async (req, res) => {
         });
       }
 
-    const employee = await createEmployee({
-        state : "active",
-        identification_employees : "ba"+generateIdentifiant(),
-        email : req.body.email,
-        role : '["BANK_ADMIN"]',
-        bank_uuid : bank.uuid,
-        user_uuid : user.uuid,
-        password : hash
-    });
-    if(!employee){
+      const employee = await createEmployee({
+        state: "active",
+        identification_employees: "ba" + generateIdentifiant(),
+        email: req.body.email,
+        role: '["BANK_ADMIN"]',
+        bank_uuid: bank.uuid,
+        user_uuid: user.uuid,
+        password: hash,
+      });
+      if (!employee) {
         return res.status(400).json({
-            error: "insertion bd",
-            message: "la création de l'employee a echoué",
-          });
-    }
+          error: "insertion bd",
+          message: "la création de l'employee a echoué",
+        });
+      }
 
- res.status(200).json({
-     data : {
-         bank : bank,
-         user : user,
-         employee : employee
-     }
- })
-});
+      res.status(201).json({
+        bank: bank,
+        user: user,
+        employee: employee,
+      });
+    });
   } catch (err) {
     console.log(err.toString());
     if (err.name === "ValidationError") {

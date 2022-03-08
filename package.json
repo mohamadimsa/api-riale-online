@@ -11,7 +11,8 @@
     "$services": "./services",
     "$factory": "./services/Factory/Fake/",
     "$sentry": "./node_modules/@sentry/node",
-    "$app": "./app.js"
+    "$app": "./app.js",
+    "$class": "./class"
   },
   "dependencies": {
     "@linode/api-v4": "^0.64.0",

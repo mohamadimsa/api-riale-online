@@ -11,7 +11,8 @@
     "$services": "./services",
     "$factory": "./services/Factory/Fake/",
     "$sentry": "./node_modules/@sentry/node",
-    "$app": "./app.js"
+    "$app": "./app.js",
+    "$class": "./class"
   },
   "dependencies": {
     "@linode/api-v4": "^0.64.0",
@@ -64,12 +65,14 @@
     "nth-check": "^2.0.1",
     "pac-resolver": "^5.0.0",
     "path": "^0.12.7",
+    "pdfkit": "^0.13.0",
     "prisma-docs-generator": "^0.5.0",
     "prisma-erd-generator": "^0.5.3",
     "prismix": "^1.0.20",
     "redis": "^4.0.0",
     "socket.io": "^4.4.0",
     "soracom": "^0.0.3",
+    "swagger-ui-express": "^4.3.0",
     "tar": "^6.1.9",
     "twilio": "^3.71.1",
     "uuid": "^8.3.2",

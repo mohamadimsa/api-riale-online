@@ -97,11 +97,17 @@ function checkRole(roleRoute, roleUser) {
 /**
  * cette fonction nous permet cree un numero client user unique 13 caractére
  */
-function generateIdentifiant() {
+function generateIdentifiant(role = null) {
+  let code = "";
+  if (!role) {
+    code = "2";
+  } else {
+    code = "1";
+  }
   let identifiant = new Date().getTime().toString();
   identifiant = identifiant.substr(3);
   identifiant = reverseString(identifiant.substr(7)) + identifiant;
-  identifiant = identifiant.substring(0, 12);
+  identifiant = identifiant.substring(0, 9) + code;
   return identifiant;
 }
 
@@ -113,7 +119,7 @@ function createNumeroAccount() {
   numberAccount =
     reverseString(numberAccount.substr(6)) + randomCharacter + numberAccount;
 
-  numberAccount = numberAccount.substring(0, 9);
+  numberAccount = numberAccount.substring(0, 7);
 
   return numberAccount;
 }
@@ -125,3 +131,5 @@ function createNumeroAccount() {
 function reverseString(str) {
   return str.split("").reverse().join("");
 }
+
+generateIdentifiant(3);

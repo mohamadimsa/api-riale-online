@@ -99,6 +99,8 @@ function checkRole(roleRoute, roleUser) {
  */
 function generateIdentifiant(role = null) {
   let code = "";
+  // 2 si c'est un utilisateur qui utilise l'app mobile
+  // 1 connection logiciel
   if (!role) {
     code = "2";
   } else {

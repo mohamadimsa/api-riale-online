@@ -35,4 +35,15 @@ module.exports = [
     method: "post",
     func: [Controller["ActionController@usurpation"]],
   },
+  /**
+   *route permettant de signaler une usurpation et de desactiver un compte afin que l'utilisateur puisse redefinir un nouveau mot de passe
+   * @Route : /action/reset-password
+   * @Method : post
+   * @param {string} email || phone
+   */
+  {
+    url: "/jsondoc",
+    method: "get",
+    func: [Controller["ActionController@docs"]],
+  },
 ];

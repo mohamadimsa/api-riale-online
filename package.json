@@ -36,6 +36,7 @@
     "date-fns": "^2.27.0",
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
     "email-templates": "^2.7.1",
     "express": "^4.17.1",
     "express-actuator": "^1.8.0",

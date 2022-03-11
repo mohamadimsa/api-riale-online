@@ -20,18 +20,17 @@ const register = async (req, res) => {
     email: yup.string().email().required(),
     password: yup.string().required(),
   });
-
-  if (
-    !(await schema.validate({
+  try {
+    await schema.validate({
       password: req.body.password,
       name: name,
       forename: forename,
       email: email,
-    }))
-  ) {
-    return res.status(400).json({
+    });
+  } catch (error) {
+    res.status(400).json({
       message: "Bad Request",
-      errors: schema.errors,
+      errors: error.toString(),
     });
   }
 
@@ -56,6 +55,7 @@ const register = async (req, res) => {
       email,
       password: hash,
       role: req.body.role || '["ROLE_USER"]',
+      id_user : generateIdentifiant()
     };
 
     try {
@@ -68,10 +68,12 @@ const register = async (req, res) => {
        * @description Return status 500
        */
       console.log(e);
-      res.status(500);
-      return res.send(
-        "Une erreur s'est produite lors de la création de l'utilisateur, veuillez vérifié si l'email n'est pas déjà associé a un compte."
-      );
+
+      return res.status(400).json({
+        message: "Bad Request",
+        errors:
+          "Une erreur s'est produite lors de la création de l'utilisateur, veuillez vérifié si l'email n'est pas déjà associé a un compte.",
+      });
     }
 
     /**

@@ -96,7 +96,6 @@ const server = http.createServer(app);
   app.use(cookieParser());
 
   app.use(morgan("tiny"));
-  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.get("/", (req, res) => res.send("Welcome to honey-pot API !!"));
 

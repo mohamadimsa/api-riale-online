@@ -1,13 +1,11 @@
 const express = require("express");
 const app = express();
-const swaggerUi = require("swagger-ui-express");
 
 const http = require("http");
 
 const server = http.createServer(app);
 (async () => {
   const cors = require("cors");
-  const swaggerDocument = require("./swagger.json");
   const morgan = require("morgan");
 
   // metric informations for server
@@ -75,7 +73,7 @@ const server = http.createServer(app);
 
   // headers
   app.use(function (req, res, next) {
-    res.setHeader("X-Powered-By", "expemple");
+    res.setHeader("X-Powered-By", "riale-online");
     res.setHeader("Content-Type", "application/json");
     res.setHeader(
       "Access-Control-Allow-Methods",
@@ -96,6 +94,7 @@ const server = http.createServer(app);
   app.use(cookieParser());
 
   app.use(morgan("tiny"));
+
 
   app.get("/", (req, res) => res.send("Welcome to honey-pot API !!"));
 

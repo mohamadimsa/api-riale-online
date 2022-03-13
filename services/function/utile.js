@@ -133,5 +133,3 @@ function createNumeroAccount() {
 function reverseString(str) {
   return str.split("").reverse().join("");
 }
-
-generateIdentifiant(3);

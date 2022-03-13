@@ -35,12 +35,23 @@ module.exports = (app) => {
 };
 
 const checkUser = (req, res, next) => {
+  console.log(req.headers.host)
+  if (!req.headers.apikey) {
+    res.status(403);
+    return res.json({
+      error: "Accès refusé",
+      message: "vous n'etes pas autoriser a utiliser l'api",
+    });
+  }
+  
+
   let perm = associationObj[req.method.toLowerCase()][req.route.path].perm;
   //on verifie si une pemission et requise si c le cas on continue le script
   if (perm === undefined || perm === -1) {
     return next();
   } else {
     //on recupere le token
+    console.log(req.headers.apikey);
     let auth = req.headers.authorization;
     //si le token n'hesiste pas on renvois un message d'erreur
     if (!auth) {

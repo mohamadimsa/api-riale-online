@@ -5,12 +5,10 @@ const function_actionKey = require("$services/function/actionKey");
 const wrongPassword = require("$services/security/wrongPassword");
 const screen = require("$services/security/screen");
 const yup = require("yup");
-const Kraaken = require("$class/Kraaken");
 
 const Login = async (req, res) => {
   try {
     const session = req.session;
-
     const schema = yup.object().shape({
       identifiant: yup.string().required(),
       password: yup.string().required(),

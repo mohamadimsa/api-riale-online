@@ -1,3 +1,4 @@
+const { generateKey } = require("crypto");
 const { date } = require("yup/lib/locale");
 
 module.exports = {
@@ -6,6 +7,7 @@ module.exports = {
   checkRole,
   generateIdentifiant,
   createNumeroAccount,
+  generatekeyApi,
 };
 /**
  * permet de generer une chaine de caracterer
@@ -132,4 +134,11 @@ function createNumeroAccount() {
  */
 function reverseString(str) {
   return str.split("").reverse().join("");
+}
+/**
+ * cette function nous permet de generer une clé api
+ * @returns
+ */
+function generatekeyApi() {
+  return generateIdentifiant() + createNumeroAccount() + strRandom();
 }

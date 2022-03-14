@@ -76,6 +76,7 @@ model office {
 model employees {
   uuid                     String  @id @default(uuid())
   state                    String
+  isActive                 Boolean @default(false)
   identification_employees String  @unique
   commentState             String?
   role                     String?
@@ -215,6 +216,6 @@ model platform {
   updatedAt DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   createby  String?
   domaine   String?
-  key       String?
+  key       String?  @unique
   nameApp   String?
 }

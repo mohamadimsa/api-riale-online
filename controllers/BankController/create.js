@@ -52,7 +52,7 @@ const create = async (req, res) => {
       number_employees: req.body.number_employees,
       commentState: req.body.commentState,
       createby: req.user,
-      identification: "im" + generateIdentifiant(),
+      identification:  generateIdentifiant("logiciel"),
       state: "en cours de validation",
       commentState:
         "en attente de validations du compte par le gérant de la bank",
@@ -67,7 +67,6 @@ const create = async (req, res) => {
 
     const password = generator.generate({ length: 10, numbers: true });
     bcrypt.hash(password, 10, async (err, hash) => {
-      console.log(hash);
       const user = await createUser({
         name: req.body.user.name,
         forename: req.body.user.forename,
@@ -85,7 +84,7 @@ const create = async (req, res) => {
 
       const employee = await createEmployee({
         state: "active",
-        identification_employees: "ba" + generateIdentifiant(),
+        identification_employees: generateIdentifiant("logiciel"),
         email: req.body.email,
         role: '["BANK_ADMIN"]',
         bank_uuid: bank.uuid,

@@ -34,29 +34,74 @@ const Login = async (req, res) => {
       identifiant: req.body.identifiant,
       password: req.body.password,
     };
-
-    /**
-     * @description finding the user in DB
-     * @type {*}
-     */
-    const user = await db.user.findUnique({
-      where: {
-        id_user: credentials.identifiant,
-      },
-    });
+    console.log(credentials);
+    let authPlatform = credentials.identifiant.substring(9, 10);
+    let user = false;
+    let match = false;
+    let employee = false;
+    //si l'identifiant fini par deux c'est que l'utilisateur a un acces que sur le logiciel
+    if (authPlatform === "2") {
+      //on verifie quelle plateforme sa provient
+      platform = await db.platform.findUnique({
+        where: {
+          key: req.headers.apikey,
+        },
+      });
+      //si on reconnais la plateforme et que la requette provient bien du logiciel
+      if (platform && platform.nameApp === "riale-logiciel") {
+        //on verifie si l'identifant existe
+        employee = await db.employees.findUnique({
+          where: {
+            identification_employees: credentials.identifiant,
+          },
+        });
+        //si l'identifiant existe on recup les info utilisateur qu'on a de l'employee
+        if (employee) {
+          user = await db.user.findUnique({
+            where: {
+              uuid: employee.user_uuid,
+            },
+          });
+          if (!user) {
+            res.status(401);
+            return res.json({
+              message: "Wrong credentials",
+            });
+          }
+          //on verifie si le mot de passe employer est le bon
+          match = await bcrypt.compare(credentials.password, employee.password);
+        } else {
+          res.status(401);
+          return res.json({
+            message: "Wrong credentials",
+          });
+        }
+      }
+    } else {
+      /**
+       * @description finding the user in DB
+       * @type {*}
+       */
+      user = await db.user.findUnique({
+        where: {
+          id_user: credentials.identifiant,
+        },
+      });
+    }
     if (!user) {
       /**
        * @description Sending error to client
        */
       res.status(401);
-      return res.send("Wrong credentials");
+      return res.json({
+        message: "Wrong credentials",
+      });
     }
-
     /**
      * @description Check if the user has the good credentials
      * @type {*}
      */
-    const match = await bcrypt.compare(credentials.password, user.password);
+    match = await bcrypt.compare(credentials.password, user.password);
 
     if (match) {
       //verification d'etat du compte avant log
@@ -64,8 +109,12 @@ const Login = async (req, res) => {
         res.status(401);
         return res.json({
           error: "",
-          message: "access denied, contact kraaken for more information",
+          message: "access denied, contact Riale for more information",
         });
+      }
+      if (employee) {
+        user.isActive = employee.isActive;
+        user.role = employee.role;
       }
       //check si un compte et active ou pas
       if (!user.isActive) {

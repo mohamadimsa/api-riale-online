@@ -101,12 +101,12 @@ function checkRole(roleRoute, roleUser) {
  */
 function generateIdentifiant(role = null) {
   let code = "";
-  // 2 si c'est un utilisateur qui utilise l'app mobile
-  // 1 connection logiciel
+  // 1 si c'est un utilisateur qui utilise l'app mobile
+  // 2 connection logiciel
   if (!role) {
-    code = "2";
-  } else {
     code = "1";
+  } else {
+    code = "2";
   }
   let identifiant = new Date().getTime().toString();
   identifiant = identifiant.substr(3);

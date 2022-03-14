@@ -1,7 +1,7 @@
 const fs = require("fs");
+const db = require("$db");
 const jwt = require("jsonwebtoken");
 const Sentry = require("$sentry");
-const { uuid } = require("uuidv4");
 const { checkRole } = require("$services/function/utile");
 
 let associationObj = {
@@ -34,8 +34,7 @@ module.exports = (app) => {
     });
 };
 
-const checkUser = (req, res, next) => {
-  console.log(req.headers.host)
+const checkUser = async (req, res, next) => {
   if (!req.headers.apikey) {
     res.status(403);
     return res.json({
@@ -43,7 +42,18 @@ const checkUser = (req, res, next) => {
       message: "vous n'etes pas autoriser a utiliser l'api",
     });
   }
-  
+  let platform = await db.platform.findUnique({
+    where: {
+      key: req.headers.apikey,
+    },
+  });
+  if (!platform) {
+    res.status(403);
+    return res.json({
+      error: "Accès refusé",
+      message: "vous n'etes pas autoriser a utiliser l'api",
+    });
+  }
 
   let perm = associationObj[req.method.toLowerCase()][req.route.path].perm;
   //on verifie si une pemission et requise si c le cas on continue le script
@@ -51,7 +61,7 @@ const checkUser = (req, res, next) => {
     return next();
   } else {
     //on recupere le token
-    console.log(req.headers.apikey);
+
     let auth = req.headers.authorization;
     //si le token n'hesiste pas on renvois un message d'erreur
     if (!auth) {

@@ -11,8 +11,7 @@ module.exports = [
     method: "post",
     func: [Controller["BankController@create"]],
     functionName: "create",
-    perm: ['SUPERVISOR']
-    
+    perm: ["SUPERVISOR"],
   },
   /**
    * cette route nous permet de recuperer tous les bank dispo
@@ -24,6 +23,6 @@ module.exports = [
     method: "get",
     func: [Controller["BankController@getAll"]],
     functionName: "getAll",
-  
-  }
+    perm: ["SUPERVISOR"],
+  },
 ];

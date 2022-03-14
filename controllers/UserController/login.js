@@ -68,8 +68,6 @@ const Login = async (req, res) => {
               message: "Wrong credentials",
             });
           }
-          //on verifie si le mot de passe employer est le bon
-          match = await bcrypt.compare(credentials.password, employee.password);
         } else {
           res.status(401);
           return res.json({
@@ -97,11 +95,16 @@ const Login = async (req, res) => {
         message: "Wrong credentials",
       });
     }
-    /**
-     * @description Check if the user has the good credentials
-     * @type {*}
-     */
-    match = await bcrypt.compare(credentials.password, user.password);
+    if (employee) {
+      //on verifie si le mot de passe employer est le bon
+      match = await bcrypt.compare(credentials.password, employee.password);
+    } else {
+      /**
+       * @description Check if the user has the good credentials
+       * @type {*}
+       */
+      match = await bcrypt.compare(credentials.password, user.password);
+    }
 
     if (match) {
       //verification d'etat du compte avant log

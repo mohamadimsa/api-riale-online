@@ -34,7 +34,6 @@ const Login = async (req, res) => {
       identifiant: req.body.identifiant,
       password: req.body.password,
     };
-    console.log(credentials);
     let authPlatform = credentials.identifiant.substring(9, 10);
     let user = false;
     let match = false;
@@ -74,6 +73,11 @@ const Login = async (req, res) => {
             message: "Wrong credentials",
           });
         }
+      } else {
+        res.status(401);
+        return res.json({
+          message: "Wrong credentials",
+        });
       }
     } else {
       /**

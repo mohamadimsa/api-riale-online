@@ -33,6 +33,7 @@ model user {
   socketId            String          @default("") @db.VarChar(255)
   id_user             String?         @unique
   accounts            account[]
+  birthday            String
   connected           connected?
   notifications       notifications[]
   employee            employees?
@@ -102,8 +103,9 @@ model account {
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   comment_state  String?
-  number_office  String
+  number_office  String?
   user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+  solde          Float
 
   @@index([user_uuid], map: "account_user_uuid_fkey")
 }

@@ -17,10 +17,10 @@ module.exports = [
    *@Method : post
    */
   {
-    url:"/user/register",
+    url: "/user/register",
     method: "post",
-    func : [Controller["UserController@register"]],
-    perm: ['BANK_ADMIN','OFFICE_ADMIN','OFFICE_EMPLOYEE','BANK_EMPLOYEE']
+    func: [Controller["UserController@register"]],
+    perm: ["BANK_ADMIN", "OFFICE_ADMIN", "OFFICE_EMPLOYEE", "BANK_EMPLOYEE"],
   },
 
   /**
@@ -28,11 +28,11 @@ module.exports = [
    *@Method : get
    */
   {
-    url:"/user/get-user/:uuid",
+    url: "/user/get-user/:uuid",
     method: "get",
-    func : [Controller["UserController@getUser"]],
-    functionName: 'getUser',
-    perm: ['*']
+    func: [Controller["UserController@getUser"]],
+    functionName: "getUser",
+    perm: ["*"],
   },
 
   /**
@@ -40,10 +40,21 @@ module.exports = [
    *@Method : post
    */
   {
-    url:"/user/logout",
+    url: "/user/logout",
     method: "post",
-    func : [Controller["UserController@logout"]],
-    functionName: 'Logout',
-    perm: ['*'],
+    func: [Controller["UserController@logout"]],
+    functionName: "Logout",
+    perm: ["*"],
+  },
+  /**
+   *@Route : /user/checkUser
+   *@Method : post
+   */
+  {
+    url: "/user/checkUser",
+    method: "post",
+    func: [Controller["UserController@checkExisteUser"]],
+    functionName: "checkExisteUser",
+    // perm: ["*"],
   },
 ];

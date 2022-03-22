@@ -209,6 +209,12 @@
         }
       }
     },
+    "/user/checkExistUser":{
+      "post":{
+        "tags":["User"]
+      }
+    },
+
     "/pet/findByTags": {
       "get": {
         "tags": ["pet"],

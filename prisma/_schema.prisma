@@ -31,50 +31,83 @@ model user {
   isSuspended         Boolean         @default(false)
   avatar              String?         @db.LongText
   socketId            String          @default("") @db.VarChar(255)
-  id_user             String          @unique
+  id_user             String?         @unique
+  accounts            account[]
+  birthday            String
   connected           connected?
   notifications       notifications[]
-  accounts            account[]
+  employee            employees?
+}
+
+model bank {
+  uuid             String      @id @default(uuid())
+  state            String
+  commentState     String?
+  officeName       String
+  country          String
+  address          String?
+  city             String
+  createdAt        DateTime    @default(now()) @db.Timestamp(6)
+  number_employees Int
+  updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  identification   String      @unique
+  createby         String
+  employees        employees[]
+  offices          office[]
 }
 
 model office {
-  uuid           String   @id @default(uuid())
-  state          String
-  commentState   String?
-  officeName     String
-  country        String
-  address        String?
-  city           String
-  createdAt      DateTime @default(now()) @db.Timestamp(6)
+  uuid             String      @id @default(uuid())
+  state            String
+  commentState     String?
+  officeName       String
+  country          String
+  address          String?
+  city             String
+  createdAt        DateTime    @default(now()) @db.Timestamp(6)
   number_employees Int
-  updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
-  identification String @unique
-  employees    employees[]
+  updatedAt        DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  identification   String      @unique
+  createby         String
+  bank_uuid        String?
+  employees        employees[]
+  bank             bank?       @relation(fields: [bank_uuid], references: [uuid], onDelete: Cascade)
 }
 
-model employees{
-  uuid           String   @id @default(uuid())
-  state          String
-  identification_employees String @unique
-  commentState   String?
-  role           String?
-  office_uuid    String
-  office         office     @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
+model employees {
+  uuid                     String  @id @default(uuid())
+  state                    String
+  isActive                 Boolean @default(false)
+  identification_employees String  @unique
+  commentState             String?
+  role                     String?
+  email                    String  @unique() @db.VarChar(255)
+  user_uuid                String  @unique
+  office_uuid              String?
+  bank_uuid                String?
+  password                 String
+  bank                     bank?   @relation(fields: [bank_uuid], references: [uuid])
+  office                   office? @relation(fields: [office_uuid], references: [uuid], onDelete: Cascade)
+  user                     user    @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
 
+  @@index([office_uuid], map: "employees_office_uuid_fkey")
 }
 
 model account {
   uuid           String   @id @default(uuid())
   number_account String   @unique
   user_uuid      String
-  user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
   createBy       String
   type           String
   state          String
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   comment_state  String?
-  number_office  String
+  number_office  String?
+  user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+  solde          Float
+
+  @@index([user_uuid], map: "account_user_uuid_fkey")
 }
 
 model historicalOperation {
@@ -120,7 +153,6 @@ model transfer {
   comment_state String?
   validateby    String?
   updatedAt     DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
-
 }
 
 model historicalInternal {
@@ -129,9 +161,9 @@ model historicalInternal {
   user_uuid      String
   action_type    String
   comment        String?
+  createby       String
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   office_uuid    String?
-
 }
 
 model connected {
@@ -149,8 +181,8 @@ model ipAddress {
   isConnected    Boolean     @default(false)
   token          String      @db.LongText
   ipAddress      String      @unique @db.VarChar(255)
-  connected      connected[] @relation(fields: [connected_uuid], references: [uuid])
   updatedAt      DateTime    @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  connected      connected[]
 }
 
 model tentavive {
@@ -174,6 +206,18 @@ model notifications {
   message   String   @db.LongText
   isRead    Boolean  @default(false)
   user_uuid String
-  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
   createdAt DateTime @default(now()) @db.Timestamp(6)
+  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([user_uuid], map: "notifications_user_uuid_fkey")
+}
+
+model platform {
+  uuid      String   @id @default(uuid())
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  createby  String?
+  domaine   String?
+  key       String?  @unique
+  nameApp   String?
 }

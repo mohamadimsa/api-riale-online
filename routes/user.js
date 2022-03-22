@@ -20,7 +20,7 @@ module.exports = [
     url: "/user/register",
     method: "post",
     func: [Controller["UserController@register"]],
-    perm: ["BANK_ADMIN", "OFFICE_ADMIN", "OFFICE_EMPLOYEE", "BANK_EMPLOYEE"],
+    // perm: ["BANK_ADMIN", "OFFICE_ADMIN", "OFFICE_EMPLOYEE", "BANK_EMPLOYEE"],
   },
 
   /**
@@ -55,6 +55,6 @@ module.exports = [
     method: "post",
     func: [Controller["UserController@checkExisteUser"]],
     functionName: "checkExisteUser",
-    // perm: ["*"],
+    perm: ["*"],
   },
 ];

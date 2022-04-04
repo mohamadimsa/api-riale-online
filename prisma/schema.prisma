@@ -34,6 +34,7 @@ model user {
   id_user             String?         @unique
   accounts            account[]
   birthday            String
+  comment             String?
   connected           connected?
   notifications       notifications[]
   employee            employees?

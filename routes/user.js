@@ -57,4 +57,15 @@ module.exports = [
     functionName: "checkExisteUser",
     perm: ["*"],
   },
+  /**
+   *cette route nous permet de recuperer l'ensenble des users
+   *@Route : /user
+   *@Method : get
+   */
+  {
+    url: "/user",
+    method: "get",
+    func: [Controller["UserController@getAll"]],
+    perm: ["*"],
+  },
 ];

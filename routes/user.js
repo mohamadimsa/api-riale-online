@@ -68,4 +68,15 @@ module.exports = [
     func: [Controller["UserController@getAll"]],
     perm: ["*"],
   },
+  /**
+   * cette route nous permet d'activer le compte d'un utilisateur
+   * @Route : /user/{action}/{uuid}
+   * @Method : patch
+   */
+  {
+    url: "/user/:action/:uuid",
+    method: "patch",
+    func: [Controller["UserController@stateAccount"]],
+    perm: ["*"],
+  },
 ];

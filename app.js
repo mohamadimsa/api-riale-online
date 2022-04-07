@@ -95,7 +95,6 @@ const server = http.createServer(app);
 
   app.use(morgan("tiny"));
 
-
   app.get("/", (req, res) => res.send("Welcome to honey-pot API !!"));
 
   if (app.get("env") === "production") {

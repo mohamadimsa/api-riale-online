@@ -77,7 +77,7 @@ const server = http.createServer(app);
     res.setHeader("Content-Type", "application/json");
     res.setHeader(
       "Access-Control-Allow-Methods",
-      "GET,POST,OPTIONS,PUT,DELETE"
+      "GET,POST,OPTIONS,PUT,DELETE,PATCH"
     );
     res.setHeader("X-XSS-Protection", "1; mode=block");
     next();

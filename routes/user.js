@@ -79,4 +79,15 @@ module.exports = [
     func: [Controller["UserController@stateAccount"]],
     perm: ["*"],
   },
+  /**
+   *cette route nous permet de modifier des information user
+   *@Route : /user
+   *@Method : patch
+   */
+  {
+    url: "/user",
+    method: "patch",
+    func: [Controller["UserController@updateUser"]],
+    perm: ["*"],
+  },
 ];

@@ -117,8 +117,8 @@ model historicalOperation {
   reference      String   @unique
   type           String
   amount         Int
-  money          String
-  label          String
+  money          String?
+  label          String?
   createBy       String
   createdAt      DateTime @default(now()) @db.Timestamp(6)
   state          String

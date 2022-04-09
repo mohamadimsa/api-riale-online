@@ -1,6 +1,9 @@
 const db = require("$db");
 const yup = require("yup");
 const { createNumeroAccount } = require("$services/function/utile");
+const {
+  historiqueOperation,
+} = require("$services/bancaire/historiqueOperation");
 
 const create = async (req, res) => {
   try {
@@ -31,9 +34,9 @@ const create = async (req, res) => {
           user_uuid: uuid,
         },
       });
- /**
-  * afin d'eviter les doublon de compte on verifie l'utilisateur ne possede daja pas le type de compte
-  */
+      /**
+       * afin d'eviter les doublon de compte on verifie l'utilisateur ne possede daja pas le type de compte
+       */
       account.map((compte, key) => {
         if (compte.type == "principal" && principal) {
           recapAccount.principal = compte;
@@ -65,6 +68,18 @@ const create = async (req, res) => {
                 "demande d'ouverture de compte en attente de validation",
             },
           });
+          historiqueOperation({
+            operation: {
+              number_account: recapAccount.principal.number_account,
+              amount: principal.depot,
+              money: "fc",
+              label: "depot ouverture compte ",
+              createBy: req.user,
+              state: "succes",
+              comment_state: "",
+              type: "depot",
+            },
+          });
         }
       }
 
@@ -83,6 +98,16 @@ const create = async (req, res) => {
               comment_state:
                 "demande d'ouverture de compte en attente de validation",
             },
+          });
+          historiqueOperation({
+            number_account: recapAccount.epargne.number_account,
+            amount: epargne.depot,
+            money: "fc",
+            label: "depot ouverture compte ",
+            createBy: req.user,
+            state: "succes",
+            comment_state: "",
+            type: "depot",
           });
         }
       }
@@ -103,6 +128,16 @@ const create = async (req, res) => {
             },
           });
         }
+        historiqueOperation({
+          number_account: recapAccount.pro.number_account,
+          amount: epargne.pro,
+          money: "fc",
+          label: "depot ouverture compte ",
+          createBy: req.user,
+          state: "succes",
+          comment_state: "",
+          type: "depot",
+        });
       }
 
       if (

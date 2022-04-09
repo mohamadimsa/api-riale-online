@@ -3,61 +3,130 @@ const yup = require("yup");
 const { createNumeroAccount } = require("$services/function/utile");
 
 const create = async (req, res) => {
-  /**
-   * @description liste des data qu'on prend en compte dans le req.body
-   */
-  const { type, user_uuid, state, solde } = req.body;
-
-  /**
-   * @description definition des type souhaiter
-   */
-  const schema = yup.object().shape({
-    user_uuid: yup.string().uuid().required(),
-    type: yup.string(),
-    state: yup.string(),
-    solde: yup.number(),
-  });
-  /**
-   * @description on check si les variable sont bien au format souhaiter
-   */
   try {
-    await schema.validate({
-      user_uuid: user_uuid,
-      type: type,
-      state: state,
-      solde: solde,
+    const { principal, pro, epargne, uuid } = req.body;
+
+    if (!uuid) {
+      return res.status(400).json({
+        error: "",
+        message: "bad request",
+      });
+    }
+
+    let recapAccount = {
+      principal: undefined,
+      epargne: undefined,
+      pro: undefined,
+    };
+
+    const user = await db.user.findUnique({
+      where: {
+        uuid: uuid,
+      },
     });
+
+    if (user) {
+      const account = await db.account.findMany({
+        where: {
+          user_uuid: uuid,
+        },
+      });
+ /**
+  * afin d'eviter les doublon de compte on verifie l'utilisateur ne possede daja pas le type de compte
+  */
+      account.map((compte, key) => {
+        if (compte.type == "principal" && principal) {
+          recapAccount.principal = compte;
+        }
+        if (compte.type == "epargne" && epargne) {
+          recapAccount.epargne = compte;
+        }
+        if (compte.type == "pro" && pro) {
+          recapAccount.pro = compte;
+        }
+      });
+
+      /**
+       * on fait l'ouverture des compte seulment si on a de la data lier
+       */
+      if (principal && uuid) {
+        if (recapAccount.principal) {
+          delete recapAccount.principal;
+        } else {
+          recapAccount.principal = await db.account.create({
+            data: {
+              number_account: createNumeroAccount(),
+              type: "principal",
+              createBy: req.user,
+              user_uuid: uuid,
+              state: "ouverture",
+              solde: principal.depot,
+              comment_state:
+                "demande d'ouverture de compte en attente de validation",
+            },
+          });
+        }
+      }
+
+      if (epargne && uuid) {
+        if (recapAccount.epargne) {
+          delete recapAccount.epargne;
+        } else {
+          recapAccount.epargne = await db.account.create({
+            data: {
+              number_account: createNumeroAccount(),
+              type: "epargne",
+              createBy: req.user,
+              user_uuid: uuid,
+              state: "ouverture",
+              solde: epargne.depot,
+              comment_state:
+                "demande d'ouverture de compte en attente de validation",
+            },
+          });
+        }
+      }
+      if (pro && uuid) {
+        if (recapAccount.pro) {
+          delete recapAccount.pro;
+        } else {
+          recapAccount.pro = await db.account.create({
+            data: {
+              number_account: createNumeroAccount(),
+              type: "pro",
+              createBy: req.user,
+              user_uuid: uuid,
+              state: "ouverture",
+              solde: pro.depot,
+              comment_state:
+                "demande d'ouverture de compte en attente de validation",
+            },
+          });
+        }
+      }
+
+      if (
+        !recapAccount.principal &&
+        !recapAccount.pro &&
+        !recapAccount.epargne
+      ) {
+        res.status(401);
+        return res.json({
+          error: "",
+          message:
+            "le client possede deja l'ensemple des compte qui souhaite ouvrir",
+        });
+      }
+      res.status(201);
+      return res.json(recapAccount);
+    }
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
-      message: "Bad Request",
-      errors: schema.errors,
+    return res.status(500).json({
+      error: "",
+      message: "serveur error",
     });
   }
-
-  const account = {
-    number_account: createNumeroAccount(),
-    type: type ? type : "courant",
-    createBy: user_uuid,
-    user_uuid: user_uuid,
-    state: state ? state : "active",
-    solde: solde ? solde : 0,
-  };
-
-  db.account
-    .create({ data: account })
-    .then((response) => {
-      res.status(201).json({
-        data: response,
-      });
-    })
-    .catch((e) => {
-      console.log(e.toString());
-      res.status(500).json({
-        error: "",
-        message: "serveur error",
-      });
-    });
 };
 
 module.exports = create;

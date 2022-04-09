@@ -100,18 +100,18 @@ const register = async (req, res) => {
        */
       res.status(201);
 
-      /**
-       * @description sending identifiers to a user by email
-       */
-      service_email.sendMail("welcome", "fr", [
-        {
-          email: user.email,
-          password: password,
-          identifiant: user.id_user,
-          subject: "Première connexion",
-          name: user.name,
-        },
-      ]);
+      // /**
+      //  * @description sending identifiers to a user by email
+      //  */
+      // service_email.sendMail("welcome", "fr", [
+      //   {
+      //     email: user.email,
+      //     password: password,
+      //     identifiant: user.id_user,
+      //     subject: "Première connexion",
+      //     name: user.name,
+      //   },
+      // ]);
 
       /**
        * @description return user data

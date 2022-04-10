@@ -35,6 +35,7 @@ model user {
   accounts            account[]
   birthday            String
   comment             String?
+  state               String?
   connected           connected?
   notifications       notifications[]
   employee            employees?

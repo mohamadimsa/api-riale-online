@@ -1,5 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+
 }
 
 datasource db {
@@ -115,18 +117,19 @@ model account {
 }
 
 model historicalOperation {
-  uuid           String   @id @default(uuid())
-  number_account String
-  reference      String   @unique
-  type           String
-  amount         Int
-  money          String?
-  label          String?
-  createBy       String
-  createdAt      DateTime @default(now()) @db.Timestamp(6)
-  state          String
-  comment_state  String?
-  updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  uuid            String   @id @default(uuid())
+  number_account  String
+  reference       String
+  type            String
+  amount          Int
+  money           String?
+  transactionType String?
+  label           String?
+  createBy        String
+  createdAt       DateTime @default(now()) @db.Timestamp(6)
+  state           String
+  comment_state   String?
+  updatedAt       DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
 }
 
 model withdrawalDeposit {

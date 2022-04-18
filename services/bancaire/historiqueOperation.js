@@ -7,7 +7,6 @@ const { createNumeroAccount, strRandom } = require("$services/function/utile");
  *
  */
 const historiqueOperation = async (data) => {
-    console.log(data)
   try {
     /**
      * initiation des data qu'on a besion
@@ -32,72 +31,13 @@ const historiqueOperation = async (data) => {
           label: label ? label : null,
           createBy: createBy,
           state: state,
-          comment_state: comment_state?comment_state:null,
+          comment_state: comment_state ? comment_state : null,
           type: "credit",
         },
       });
     }
 
-    if (type == "virement") {
-      await db.historicalOperation.create({
-        data: {
-          number_account: number_account,
-          reference: reference,
-          amount: amount,
-          money: "fc",
-          label: label ? label : null,
-          createBy: createBy,
-          state: state,
-          comment_state: comment_state,
-          type: "credit",
-        },
-      });
-      await db.historicalOperation.create({
-        data: {
-          number_account: number_account,
-          reference: reference,
-          amount: amount,
-          money: "fc",
-          label: label ? label : null,
-          createBy: createBy,
-          state: state,
-          comment_state: comment_state,
-          type: "debit",
-        },
-      });
 
-      await db.historicalOperation.create({
-        data: {
-          number_account: number_account,
-          reference: reference,
-          amount: amount,
-          money: "fc",
-          label: label ? label : null,
-          createBy: createBy,
-          state: state,
-          comment_state: comment_state,
-          type: "debit",
-        },
-      });
-
-      await db.transfer.create({
-        data: {
-          reference: reference,
-          type: data.virement.type
-            ? data.virement.type
-            : "virement occationelle",
-          message: data.virement.message ? data.virement.message : null,
-          creditor: data.virement.creditor,
-          debtor: data.virement.debtor,
-          createby: createBy,
-          amount: amount,
-          money: "fc",
-          state: data.virement.state,
-          comment_state: data.virement.comment_state,
-          validateby: validateby.virement.validateby,
-        },
-      });
-    }
   } catch (error) {
     console.log(error);
   }

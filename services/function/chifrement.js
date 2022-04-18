@@ -1,5 +1,5 @@
 var CryptoJS = require("crypto-js");
-
+const bcrypt = require("bcrypt");
 /**
  *cette fonction nous permet de chriffe un objet ou une chaine de caracterer
  * @param {*} data
@@ -17,6 +17,7 @@ function cryptage(data) {
     "fB[VE{@vpS(W6$f$$?$#M.$}rnOKlu"
   ).toString();
 }
+
 /**
  *cette fonction nous permet de déchriffe un objet ou une chaine de caracterer chriffrer
  * @param {*} data
@@ -34,3 +35,7 @@ module.exports = {
   cryptage,
   decryptage,
 };
+
+// bcrypt.hash("1710", 10, async (err, hash) => {
+//   console.log(hash);
+// });

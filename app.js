@@ -95,7 +95,7 @@ const server = http.createServer(app);
 
   app.use(morgan("tiny"));
 
-  app.get("/", (req, res) => res.send("Welcome to honey-pot API !!"));
+  app.get("/", (req, res) => res.send("Welcome to riale-online  API !!"));
 
   if (app.get("env") === "production") {
     app.set("trust proxy", 1); // trust first proxy
@@ -103,10 +103,14 @@ const server = http.createServer(app);
   }
 
   require("./routes/")(app);
-
+  //cache cron
+  const config = require("./services/scheduler/config");
+  const scheduler = require("./services/scheduler/scheduler");
+  scheduler.initCrons(config);
   server.listen(7001, () => {
     console.log("[SERVER] start server on port 7001");
   });
+ 
 
   // notification server
   const {

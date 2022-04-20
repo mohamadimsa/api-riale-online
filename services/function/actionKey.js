@@ -128,7 +128,7 @@ async function purgeKey(uuid, action) {
   });
   let curentTime = new Date().getTime();
   await allKeyUser.map((element) => {
-    // on verifier si les keys non pas experer si c le cas on le supprime
+    // on verifier si les keys non pas expirer si c le cas on le supprime
     if (element.exp > curentTime || element.action == action) {
       db.actionKey.delete({
         where: {

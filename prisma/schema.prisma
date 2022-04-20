@@ -10,38 +10,39 @@ datasource db {
 }
 
 model user {
-  name                String          @db.VarChar(255)
-  password            String          @db.VarChar(255)
-  address             String?         @db.VarChar(255)
-  city                String?         @db.VarChar(255)
-  country             String?         @db.VarChar(255)
-  countryPhoneNumber  String?         @db.VarChar(6)
-  createdAt           DateTime        @default(now()) @db.Timestamp(6)
-  email               String          @unique(map: "User_email_key") @db.VarChar(255)
-  forename            String          @db.VarChar(255)
-  isActive            Boolean         @default(false)
-  isBanned            Boolean         @default(false)
-  isConnected         Boolean         @default(false)
-  multiPlatform       Boolean         @default(true)
-  multiPlatformNumber Int?            @default(2)
-  phoneNumber         String?         @db.VarChar(20)
-  role                String?         @db.VarChar(50)
-  updatedAt           DateTime        @default(now()) @updatedAt @db.Timestamp(6)
-  uuid                String          @id @default(uuid())
-  zipCode             String?         @db.VarChar(255)
-  deleted             Boolean         @default(false)
-  isSuspended         Boolean         @default(false)
-  avatar              String?         @db.LongText
-  socketId            String          @default("") @db.VarChar(255)
-  id_user             String?         @unique
-  accounts            account[]
-  birthday            String
-  comment             String?
-  state               String?
-  secretKey           String?
-  connected           connected?
-  notifications       notifications[]
-  employee            employees?
+  name                  String                  @db.VarChar(255)
+  password              String                  @db.VarChar(255)
+  address               String?                 @db.VarChar(255)
+  city                  String?                 @db.VarChar(255)
+  country               String?                 @db.VarChar(255)
+  countryPhoneNumber    String?                 @db.VarChar(6)
+  createdAt             DateTime                @default(now()) @db.Timestamp(6)
+  email                 String                  @unique(map: "User_email_key") @db.VarChar(255)
+  forename              String                  @db.VarChar(255)
+  isActive              Boolean                 @default(false)
+  isBanned              Boolean                 @default(false)
+  isConnected           Boolean                 @default(false)
+  multiPlatform         Boolean                 @default(true)
+  multiPlatformNumber   Int?                    @default(2)
+  phoneNumber           String?                 @db.VarChar(20)
+  role                  String?                 @db.VarChar(50)
+  updatedAt             DateTime                @default(now()) @updatedAt @db.Timestamp(6)
+  uuid                  String                  @id @default(uuid())
+  zipCode               String?                 @db.VarChar(255)
+  deleted               Boolean                 @default(false)
+  isSuspended           Boolean                 @default(false)
+  avatar                String?                 @db.LongText
+  socketId              String                  @default("") @db.VarChar(255)
+  id_user               String?                 @unique
+  accounts              account[]
+  birthday              String
+  comment               String?
+  state                 String?
+  secretKey             String?
+  connected             connected?
+  notifications         notifications[]
+  employee              employees?
+  tokenPushNotification tokenPushNotification[]
 }
 
 model bank {
@@ -227,4 +228,17 @@ model platform {
   domaine   String?
   key       String?  @unique
   nameApp   String?
+}
+
+model tokenPushNotification {
+  uuid      String   @id @default(uuid())
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+  createby  String?
+  user_uuid String
+  token     String
+  isActive  Boolean  @default(true)
+  user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+
+  @@index([user_uuid], map: "tokenPushNotifications_user_uuid_fkey")
 }

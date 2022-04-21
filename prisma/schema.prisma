@@ -32,10 +32,10 @@ model user {
   deleted               Boolean                 @default(false)
   isSuspended           Boolean                 @default(false)
   avatar                String?                 @db.LongText
-  socketId              String                  @default("") @db.VarChar(255)
+  socketId              String?                  @default("") @db.VarChar(255)
   id_user               String?                 @unique
   accounts              account[]
-  birthday              String
+  birthday              String?
   comment               String?
   state                 String?
   secretKey             String?

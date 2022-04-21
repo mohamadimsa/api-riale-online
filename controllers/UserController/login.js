@@ -35,6 +35,7 @@ const Login = async (req, res) => {
       password: req.body.password,
     };
     let authPlatform = credentials.identifiant.substring(9, 10);
+    console.log(authPlatform)
     let user = false;
     let match = false;
     let employee = false;
@@ -90,6 +91,7 @@ const Login = async (req, res) => {
         },
       });
     }
+    console.log(user);
     if (!user) {
       /**
        * @description Sending error to client

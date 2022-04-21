@@ -5,7 +5,7 @@
  */
 module.exports = {
   hello: {
-    frequency: "*/1 * * * * *",
+    frequency: " * * * * *",
     handler: "handlers/hello",
   },
 };

@@ -35,7 +35,7 @@ const Login = async (req, res) => {
       password: req.body.password,
     };
     let authPlatform = credentials.identifiant.substring(9, 10);
-    console.log(authPlatform)
+    console.log(authPlatform);
     let user = false;
     let match = false;
     let employee = false;
@@ -88,6 +88,9 @@ const Login = async (req, res) => {
       user = await db.user.findUnique({
         where: {
           id_user: credentials.identifiant,
+        },
+        include: {
+          accounts: true,
         },
       });
     }

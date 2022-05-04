@@ -32,7 +32,7 @@ const register = async (req, res) => {
       name: yup.string().required(),
       forename: yup.string().required(),
       email: yup.string().email().required(),
-      password: yup.string().required(),
+      password: yup.string(),
       city: yup.string(),
       country: yup.string(),
       countryPhoneNumber: yup.string(),
@@ -80,6 +80,9 @@ const register = async (req, res) => {
         forename,
         email,
         password: hash,
+        address: address,
+        city: city,
+        country: country,
         role: req.body.role || '["ROLE_USER"]',
         id_user: generateIdentifiant(),
         birthday,
@@ -100,18 +103,18 @@ const register = async (req, res) => {
        */
       res.status(201);
 
-      /**
-       * @description sending identifiers to a user by email
-       */
-      service_email.sendMail("welcome", "fr", [
-        {
-          email: user.email,
-          password: password,
-          identifiant: user.id_user,
-          subject: "Première connexion",
-          name: user.name,
-        },
-      ]);
+      // /**
+      //  * @description sending identifiers to a user by email
+      //  */
+      // service_email.sendMail("welcome", "fr", [
+      //   {
+      //     email: user.email,
+      //     password: password,
+      //     identifiant: user.id_user,
+      //     subject: "Première connexion",
+      //     name: user.name,
+      //   },
+      // ]);
 
       /**
        * @description return user data

@@ -8,10 +8,13 @@ const CheckExisteUser = async (req, res) => {
      */
     const { name, forename, email, birthday } = req.body;
     const schema = yup.object().shape({
-      email: yup.string().email(),
-      forename: yup.string(),
-      name: yup.string(),
-      birthday: yup.string(),
+      email:
+        !forename || !birthday || !name
+          ? yup.string().email().required()
+          : yup.string().email(),
+      forename: name || birthday ? yup.string().required() : yup.string(),
+      name: forename || birthday ? yup.string().required() : yup.string(),
+      birthday: forename || name ? yup.string().required() : yup.string(),
     });
 
     await schema.validate({
@@ -29,7 +32,10 @@ const CheckExisteUser = async (req, res) => {
       if (user) {
         res.status(200);
         return res.json({
-          emailExiste: true,
+          userExiste: {
+            uuid: user.uuid,
+            name: user.name + " " + user.forename,
+          },
         });
       }
       return res.json({
@@ -49,7 +55,7 @@ const CheckExisteUser = async (req, res) => {
     if (user) {
       res.status(200);
       return res.json({
-        userExiste: true,
+        userExiste: { uuid: user.uuid, name: user.name + " " + user.forename },
       });
     }
     return res.json({

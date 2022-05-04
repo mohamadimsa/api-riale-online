@@ -36,25 +36,26 @@ module.exports = (app) => {
 
 const checkUser = async (req, res, next) => {
   try {
-    // if (!req.headers.apikey) {
-    //   res.status(403);
-    //   return res.json({
-    //     error: "Accès refusé",
-    //     message: "vous n'etes pas autoriser a utiliser l'api",
-    //   });
-    // }
-    // let platform = await db.platform.findUnique({
-    //   where: {
-    //     key: req.headers.apikey,
-    //   },
-    // });
-    // if (!platform) {
-    //   res.status(403);
-    //   return res.json({
-    //     error: "Accès refusé",
-    //     message: "vous n'etes pas autoriser a utiliser l'api",
-    //   });
-    // }
+    if (!req.headers.apikey) {
+      res.status(403);
+      return res.json({
+        error: "Accès refusé",
+        message: "vous n'etes pas autoriser a utiliser l'api",
+      });
+    }
+    let platform = await db.platform.findUnique({
+      where: {
+        key: req.headers.apikey,
+      },
+    });
+    if (!platform) {
+      res.status(403);
+      return res.json({
+        error: "Accès refusé",
+        message: "vous n'etes pas autoriser a utiliser l'api",
+      });
+    }
+    req.platform = platform.nameApp;
 
     let perm = associationObj[req.method.toLowerCase()][req.route.path].perm;
     //on verifie si une pemission et requise si c le cas on continue le script

@@ -39,3 +39,10 @@ module.exports = {
 // bcrypt.hash("1710", 10, async (err, hash) => {
 //   console.log(hash);
 // });
+
+console.log(cryptage('salut'))
+console.log(cryptage('salut'))
+console.log(cryptage('salut'))
+console.log(cryptage('salut'))
+console.log(cryptage('salut'))
+console.log(decryptage(cryptage('salut')))

@@ -37,6 +37,7 @@ model user {
   connected           connected?
   notifications       notifications[]
   employee            employees?
+  cards               cards[]
 }
 
 model bank {
@@ -104,9 +105,10 @@ model account {
   updatedAt      DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   comment_state  String?
   number_office  String?
+  cards          cards[]
   user           user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
   solde          Float
-
+ 
   @@index([user_uuid], map: "account_user_uuid_fkey")
 }
 
@@ -220,4 +222,36 @@ model platform {
   domaine   String?
   key       String?  @unique
   nameApp   String?
+}
+
+model cards {
+   uuid      String   @id @default(uuid())
+   createdAt DateTime @default(now()) @db.Timestamp(6)
+   createby  String?
+   password String?
+   user_uuid String
+   account_uuid String
+     updatedAt DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+   user            user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
+   account         account     @relation(fields: [account_uuid], references: [uuid], onDelete: Cascade)
+   exp  String
+   number String
+   cvv String
+   state String
+   commentState String?
+   forcebloqued Boolean     @default(false)
+   plafondretrait Int?
+   plafondpayement Int?
+   tentative Int?
+   setting  settingcards?
+}
+model settingcards {
+   uuid      String   @id @default(uuid())
+   createdAt DateTime @default(now()) @db.Timestamp(6)
+   createby  String?
+   updatedAt DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
+   card_uuid String
+   cards           cards    @relation(fields: [card_uuid], references: [uuid], onDelete: Cascade)
+   payementOnline  Boolean     @default(true)
+   nocontact   Boolean     @default(true)
 }

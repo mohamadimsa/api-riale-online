@@ -8,6 +8,7 @@ module.exports = {
   generateIdentifiant,
   createNumeroAccount,
   generatekeyApi,
+  generateCard
 };
 /**
  * permet de generer une chaine de caracterer
@@ -119,6 +120,7 @@ function createNumeroAccount() {
   const alphabet = "ABCDEFGHIGKLMOPQRSTVWXYZ";
   const randomCharacter = alphabet[Math.floor(Math.random() * alphabet.length)];
   let numberAccount = new Date().getTime().toString();
+  console.log("269" + numberAccount);
   numberAccount = numberAccount.substr(2);
   numberAccount =
     reverseString(numberAccount.substr(6)) + randomCharacter + numberAccount;
@@ -127,6 +129,7 @@ function createNumeroAccount() {
 
   return numberAccount;
 }
+
 /**
  * cette fonction permet de reverse une chaine de caracterer
  * @param {STRING} str
@@ -134,6 +137,29 @@ function createNumeroAccount() {
  */
 function reverseString(str) {
   return str.split("").reverse().join("");
+}
+/**
+ * cette function nous permet de generer des numero de carte
+ * on renseigne le type afin de definir son expiration
+ * @param {*} type
+ */
+function generateCard(type) {
+  let actualDate = new Date();
+  let annee = `${actualDate.getFullYear() + 2} `;
+  let exp = `${
+    actualDate.getMonth() < 10
+      ? "0" + actualDate.getMonth()
+      : actualDate.getMonth()
+  }/${annee.substr(2, 2)}`;
+  let numbercarte = new Date().getTime().toString();
+  let cvv = `${Math.floor(Math.random() * 100)}${Math.floor(
+    Math.random() * 100
+  )}${Math.floor(Math.random() * 100)}`.substr(0, 3);
+  return {
+    number: "269" + numbercarte,
+    exp,
+    cvv,
+  };
 }
 /**
  * cette function nous permet de generer une clé api

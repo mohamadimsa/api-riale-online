@@ -19,7 +19,7 @@ const historiqueOperation = async (data) => {
       createBy,
       state,
       comment_state,
-    } = data.operation;
+    } = data
     const reference = strRandom();
     if (type == "depot") {
       await db.historicalOperation.create({

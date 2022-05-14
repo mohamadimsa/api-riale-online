@@ -40,9 +40,3 @@ module.exports = {
 //   console.log(hash);
 // });
 
-console.log(cryptage('salut'))
-console.log(cryptage('salut'))
-console.log(cryptage('salut'))
-console.log(cryptage('salut'))
-console.log(cryptage('salut'))
-console.log(decryptage(cryptage('salut')))

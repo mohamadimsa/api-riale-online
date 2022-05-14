@@ -8,7 +8,7 @@ module.exports = {
   generateIdentifiant,
   createNumeroAccount,
   generatekeyApi,
-  generateCard
+  generateCard,
 };
 /**
  * permet de generer une chaine de caracterer

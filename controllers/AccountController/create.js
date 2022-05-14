@@ -1,9 +1,14 @@
 const db = require("$db");
 const yup = require("yup");
-const { createNumeroAccount } = require("$services/function/utile");
+const {
+  createNumeroAccount,
+  generateCard,
+} = require("$services/function/utile");
 const {
   historiqueOperation,
 } = require("$services/bancaire/historiqueOperation");
+const bcrypt = require("bcrypt");
+const { cryptage } = require("$services/function/chifrement");
 
 const create = async (req, res) => {
   try {
@@ -51,6 +56,7 @@ const create = async (req, res) => {
 
       /**
        * on fait l'ouverture des compte seulment si on a de la data lier
+       * ouverture compte principal
        */
       if (principal && uuid) {
         if (recapAccount.principal) {
@@ -68,6 +74,41 @@ const create = async (req, res) => {
                 "demande d'ouverture de compte en attente de validation",
             },
           });
+          /**
+           * creation et enregistrement de la carte
+           */
+          let cardPrincipal = generateCard();
+
+          recapAccount.cardPrincipal = await db.cards.create({
+            data: {
+              account_uuid: recapAccount.principal.uuid,
+              user_uuid: uuid,
+              /**
+               * trouver une façon de pouvoir envoyer le mot de passe
+               * de la carte a l'utilisateur
+               */
+              password: await bcrypt.hash("1710", 10),
+              exp: await bcrypt.hash(cardPrincipal.exp, 10),
+              cvv: await bcrypt.hash(cardPrincipal.cvv, 10),
+              number: cardPrincipal.number,
+              state: "disable",
+              commentState: "en attente de la validation du compte",
+              forcebloqued: true,
+              type: "clasic",
+            },
+          });
+
+          await db.settingcards.create({
+            data: {
+              card_uuid: recapAccount.cardPrincipal.uuid,
+              payementOnline: true,
+              nocontact: true,
+            },
+          });
+
+          /**
+           * historique de lier au debot
+           */
           historiqueOperation({
             operation: {
               number_account: recapAccount.principal.number_account,
@@ -83,6 +124,9 @@ const create = async (req, res) => {
         }
       }
 
+      /**
+       * ouverture compte epargne
+       */
       if (epargne && uuid) {
         if (recapAccount.epargne) {
           delete recapAccount.epargne;
@@ -99,6 +143,9 @@ const create = async (req, res) => {
                 "demande d'ouverture de compte en attente de validation",
             },
           });
+          /**
+           * historique lier au depot
+           */
           historiqueOperation({
             number_account: recapAccount.epargne.number_account,
             amount: epargne.depot,
@@ -111,10 +158,14 @@ const create = async (req, res) => {
           });
         }
       }
+      /**
+       * ouverture compte pro
+       */
       if (pro && uuid) {
         if (recapAccount.pro) {
           delete recapAccount.pro;
         } else {
+          console.log(pro);
           recapAccount.pro = await db.account.create({
             data: {
               number_account: createNumeroAccount(),
@@ -128,9 +179,41 @@ const create = async (req, res) => {
             },
           });
         }
+        /**
+         * creation et enregistrement de la carte
+         */
+        let cardPro = generateCard();
+
+        recapAccount.cardPro = await db.cards.create({
+          data: {
+            account_uuid: recapAccount.principal.uuid,
+            user_uuid: uuid,
+            /**
+             * trouver une façon de pouvoir envoyer le mot de passe
+             * de la carte a l'utilisateur
+             */
+            password: await bcrypt.hash("1710", 10),
+            exp: await bcrypt.hash(cardPro.exp, 10),
+            cvv: await bcrypt.hash(cardPro.cvv, 10),
+            number: cardPro.number,
+            state: "disable",
+            commentState: "en attente de la validation du compte",
+            forcebloqued: true,
+            type: "pro",
+          },
+        });
+
+        await db.settingcards.create({
+          data: {
+            card_uuid: recapAccount.cardPro.uuid,
+            payementOnline: true,
+            nocontact: true,
+          },
+        });
+        /**historique lier au depot */
         historiqueOperation({
           number_account: recapAccount.pro.number_account,
-          amount: epargne.pro,
+          amount: pro.depot,
           money: "fc",
           label: "depot ouverture compte ",
           createBy: req.user,

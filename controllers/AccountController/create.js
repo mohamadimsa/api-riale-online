@@ -70,7 +70,7 @@ const create = async (req, res) => {
               createBy: req.user,
               user_uuid: uuid,
               state: "ouverture",
-              solde: principal.depot,
+              solde: parseFloat(principal.depot),
               comment_state:
                 "demande d'ouverture de compte en attente de validation",
             },
@@ -120,7 +120,7 @@ const create = async (req, res) => {
           historiqueOperation({
             operation: {
               number_account: recapAccount.principal.number_account,
-              amount: principal.depot,
+              amount: parseFloat(principal.depot),
               money: "fc",
               label: "depot ouverture compte ",
               createBy: req.user,
@@ -146,7 +146,7 @@ const create = async (req, res) => {
               createBy: req.user,
               user_uuid: uuid,
               state: "ouverture",
-              solde: epargne.depot,
+              solde: parseFloat(epargne.depot),
               comment_state:
                 "demande d'ouverture de compte en attente de validation",
             },
@@ -156,7 +156,7 @@ const create = async (req, res) => {
            */
           historiqueOperation({
             number_account: recapAccount.epargne.number_account,
-            amount: epargne.depot,
+            amount: parseFloat(epargne.depot),
             money: "fc",
             label: "depot ouverture compte ",
             createBy: req.user,
@@ -180,7 +180,7 @@ const create = async (req, res) => {
               createBy: req.user,
               user_uuid: uuid,
               state: "ouverture",
-              solde: pro.depot,
+              solde: parseFloat(pro.depot),
               comment_state:
                 "demande d'ouverture de compte en attente de validation",
             },
@@ -228,7 +228,7 @@ const create = async (req, res) => {
         /**historique lier au depot */
         historiqueOperation({
           number_account: recapAccount.pro.number_account,
-          amount: pro.depot,
+          amount:parseFloat( pro.depot),
           money: "fc",
           label: "depot ouverture compte ",
           createBy: req.user,

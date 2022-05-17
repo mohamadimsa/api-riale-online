@@ -79,7 +79,7 @@ const virement = async (req, res) => {
     /**
      * si tout est bon on efffectue le virement
      */
-    process_viremnpment(
+    process_virement(
       {
         from: decrypt.from,
         to: decrypt.to,

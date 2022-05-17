@@ -1,5 +1,6 @@
 var CryptoJS = require("crypto-js");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 /**
  *cette fonction nous permet de chriffe un objet ou une chaine de caracterer
  * @param {*} data
@@ -7,7 +8,7 @@ const bcrypt = require("bcrypt");
  */
 function cryptage(data) {
   if (typeof isObjet == "object") {
-    return CryptoJS.AES.encrypt(
+    return CryptoJS.MD5.encrypt(
       JSON.stringify(data),
       "fB[VE{@vpS(W6$f$$?$#M.$}rnOKlu"
     ).toString();
@@ -23,12 +24,14 @@ function cryptage(data) {
  * @param {*} data
  * @returns
  */
-function decryptage(data) {
+function decryptage(data, secret) {
   if (typeof isObjet == "object") {
-    let bytes = CryptoJS.AES.decrypt(data, "fB[VE{@vpS(W6$f$$?$#M.$}rnOKlu");
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   }
-  var bytes = CryptoJS.AES.decrypt(data, "fB[VE{@vpS(W6$f$$?$#M.$}rnOKlu");
+  var bytes = CryptoJS.AES.decrypt(
+    data,
+    secret ? secret : "fB[VE{@vpS(W6$f$$?$#M.$}rnOKlu"
+  );
   return bytes.toString(CryptoJS.enc.Utf8);
 }
 module.exports = {
@@ -39,4 +42,3 @@ module.exports = {
 // bcrypt.hash("1710", 10, async (err, hash) => {
 //   console.log(hash);
 // });
-

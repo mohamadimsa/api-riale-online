@@ -9,6 +9,7 @@ const {
 } = require("$services/bancaire/historiqueOperation");
 const bcrypt = require("bcrypt");
 const { cryptage } = require("$services/function/chifrement");
+const jwt = require("jsonwebtoken");
 
 const create = async (req, res) => {
   try {
@@ -78,6 +79,7 @@ const create = async (req, res) => {
            * creation et enregistrement de la carte
            */
           let cardPrincipal = generateCard();
+          console.log("carte principal", cardPrincipal);
 
           recapAccount.cardPrincipal = await db.cards.create({
             data: {
@@ -97,7 +99,13 @@ const create = async (req, res) => {
               type: "clasic",
             },
           });
-
+          const token = jwt.sign(
+            {
+              idCard: recapAccount.cardPrincipal.uuid,
+            },
+            "v6sb89x6s33b9dkh"
+          );
+          console.log("cryp principal", cryptage(token));
           await db.settingcards.create({
             data: {
               card_uuid: recapAccount.cardPrincipal.uuid,
@@ -165,7 +173,6 @@ const create = async (req, res) => {
         if (recapAccount.pro) {
           delete recapAccount.pro;
         } else {
-          console.log(pro);
           recapAccount.pro = await db.account.create({
             data: {
               number_account: createNumeroAccount(),
@@ -183,6 +190,7 @@ const create = async (req, res) => {
          * creation et enregistrement de la carte
          */
         let cardPro = generateCard();
+        console.log("carte pro", cardPro);
 
         recapAccount.cardPro = await db.cards.create({
           data: {
@@ -202,6 +210,13 @@ const create = async (req, res) => {
             type: "pro",
           },
         });
+        const token = jwt.sign(
+          {
+            idCard: recapAccount.cardPro.uuid,
+          },
+          "v6sb89x6s33b9dkh"
+        );
+        console.log("cryp pro", cryptage(token));
 
         await db.settingcards.create({
           data: {

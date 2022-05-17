@@ -1,6 +1,9 @@
 const { generateKey } = require("crypto");
 const { date } = require("yup/lib/locale");
-
+const { decryptage } = require("$services/function/chifrement");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const { json } = require("body-parser");
 module.exports = {
   strRandom,
   convertTimeStamp,
@@ -9,6 +12,7 @@ module.exports = {
   createNumeroAccount,
   generatekeyApi,
   generateCard,
+  decryptCard,
 };
 /**
  * permet de generer une chaine de caracterer
@@ -168,3 +172,26 @@ function generateCard(type) {
 function generatekeyApi() {
   return generateIdentifiant() + createNumeroAccount() + strRandom();
 }
+
+function decryptCard(card) {
+  try {
+    //decriptage info front
+    let front = decryptage(card, "riale-online");
+    front = JSON.parse(front);
+    let token = decryptage(front.id);
+    /**
+     * si le jwt et valide en return l'id de la carte et le montant de la transaction
+     */
+    if (jwt.verify(token, process.env.JWT_SECRET)) {
+      return {
+        idcard: jwt.decode(token).idCard,
+        amount: parseInt(front.solde),
+      };
+    }
+  } catch (error) {
+    return false;
+  }
+  return false;
+}
+
+

@@ -1,6 +1,7 @@
 const db = require("../../Models/Database/index");
 const fonction = require("./utile");
 const code = "Xw2Hy%My2sf";
+const {cryptage,decryptage} = require("$services/function/chifrement");
 
 /**
  * cette fonction nous permet de genérer une ActionKey

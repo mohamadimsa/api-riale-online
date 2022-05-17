@@ -119,4 +119,4 @@ module.exports = pushNotification = (message, pushToken) => {
 pushNotification({sound: "default",
 body: "tg",
 title: "mes comptes riale-online",
-badge: 3},["ExponentPushToken[4beDd6AIT5uJBYz4Uh2QTo]"])
+badge: 3},["ExponentPushToken[4Kadf2P6EYo6SW0b3GZuiB]"])

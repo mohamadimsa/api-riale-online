@@ -22,6 +22,7 @@ const getUser = async (req, res) => {
       },
       include: {
         accounts: true,
+        tokenPushNotification: true,
       },
     });
     res.status(200);

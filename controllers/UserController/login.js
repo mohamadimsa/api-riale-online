@@ -94,7 +94,7 @@ const Login = async (req, res) => {
         },
       });
     }
-  
+
     if (!user) {
       /**
        * @description Sending error to client

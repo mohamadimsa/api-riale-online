@@ -36,6 +36,7 @@ module.exports = (app) => {
 
 const checkUser = async (req, res, next) => {
   try {
+    console.log(req);
     if (!req.headers.apikey) {
       res.status(403);
       return res.json({
@@ -67,7 +68,7 @@ const checkUser = async (req, res, next) => {
       let auth = req.headers.authorization;
       //si le token n'hesiste pas on renvois un message d'erreur
       if (!auth) {
-        console.log("non token")
+        console.log("non token");
         return res.status(401).send("Must Auth");
       } else if (perm.includes("*", 0)) {
         let token = auth.split(" ");
@@ -86,7 +87,7 @@ const checkUser = async (req, res, next) => {
         let token = auth.split(" ");
         //on verifie bien qu'on a bearer et le token sinn accee refuser
         if (token.length !== 2) {
-          console.log("pas de token")
+          console.log("pas de token");
           return res.status(401).send("Must Auth");
         } else {
           //on verifie si le token et valide
@@ -99,7 +100,7 @@ const checkUser = async (req, res, next) => {
               req.role = payload.role;
               return next();
             } else {
-              "token invalide"
+              ("token invalide");
               res.status(401).send("Unauthorized");
             }
           });

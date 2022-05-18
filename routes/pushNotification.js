@@ -25,6 +25,5 @@ module.exports = [
     method: "post",
     func: [Controller["PushNotificationController@deleteToken"]],
     functionName: "delete",
-    perm: ["*"],
   },
 ];

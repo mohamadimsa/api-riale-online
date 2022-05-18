@@ -36,7 +36,7 @@ module.exports = (app) => {
 
 const checkUser = async (req, res, next) => {
   try {
-    console.log(req);
+ 
     if (!req.headers.apikey) {
       res.status(403);
       return res.json({

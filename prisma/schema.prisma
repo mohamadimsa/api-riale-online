@@ -238,7 +238,7 @@ model tokenPushNotification {
   updatedAt DateTime @default(dbgenerated("('0000-00-00 00:00:00.000000')")) @updatedAt @db.Timestamp(6)
   createby  String?
   user_uuid String
-  token     String
+  token     String   @unique
   isActive  Boolean  @default(true)
   user      user     @relation(fields: [user_uuid], references: [uuid], onDelete: Cascade)
 

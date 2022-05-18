@@ -66,6 +66,7 @@ const checkUser = async (req, res, next) => {
       //on recupere le token
 
       let auth = req.headers.authorization;
+      console.log(auth)
       //si le token n'hesiste pas on renvois un message d'erreur
       if (!auth) {
         console.log("non token");

@@ -17,7 +17,7 @@ module.exports = function payement(data, createBy) {
             user: true,
           },
         });
-        console.log(sender)
+     
         
 
 
@@ -29,7 +29,6 @@ module.exports = function payement(data, createBy) {
         });
         console.log(recipient)
         if (!sender || !recipient) {
-          console.log("pb detectionaccout")
           reject("échec du payement");
           throw new Error(`échec du payement`);
         }

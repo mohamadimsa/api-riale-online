@@ -24,11 +24,10 @@ module.exports = pushNotification = async (message, user_uuid) => {
   user.map((e) => {
     pushToken.push(e.token);
   });
-
+  console.log(user);
   //   // Crée les messages que tu veux envoyer aux clients
   let messages = [];
   for (let somePushTokens of pushToken) {
-    console.log(somePushTokens);
     // Chaque jeton push ressemble à ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
 
     // Vérifiez que tous vos jetons push semblent être des jetons push Expo valides

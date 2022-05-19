@@ -45,8 +45,8 @@ const payement = async (req, res) => {
         user: true,
       },
     });
-   
-    console.log(dataCrediteur.user)
+
+    console.log(dataCrediteur);
 
     if (!dataCrediteur.length) {
       return res.status(401).json({

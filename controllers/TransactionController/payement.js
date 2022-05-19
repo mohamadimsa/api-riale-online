@@ -46,7 +46,7 @@ const payement = async (req, res) => {
       },
     });
 
-    console.log(dataCrediteur);
+    console.log(dataDebiter.uuid);
 
     if (!dataCrediteur.length) {
       return res.status(401).json({
@@ -72,7 +72,7 @@ const payement = async (req, res) => {
             body: `votre payement de ${decrypt.amount} kmf a était accepter 💸 `,
             title: "mes comptes riale-online",
           },
-          dataCrediteur.user_uuid
+          dataDebiter.user_uuid
         );
         return res.status(201).json({
           message: "le payement  bien éffectuerr",
@@ -86,7 +86,7 @@ const payement = async (req, res) => {
             body: `votre payement de ${decrypt.amount} kmf a était refuser ❌`,
             title: "mes comptes riale-online",
           },
-          dataCrediteur.user_uuid
+          dataDebiter.user_uuid
         );
         return res.status(400).json({
           message: e,

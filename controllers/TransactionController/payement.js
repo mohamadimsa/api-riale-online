@@ -45,6 +45,8 @@ const payement = async (req, res) => {
         user: true,
       },
     });
+   
+    console.log(dataCrediteur.user)
 
     if (!dataCrediteur.length) {
       return res.status(401).json({
@@ -58,7 +60,7 @@ const payement = async (req, res) => {
     process_payement(
       {
         from: dataDebiter.account_uuid,
-        to: dataCrediteur[0].uuid,
+        to: dataCrediteur[0].user.uuid,
         amount: decrypt.amount,
       },
       req.user

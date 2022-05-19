@@ -17,6 +17,9 @@ module.exports = function payement(data, createBy) {
             user: true,
           },
         });
+        console.log(sender)
+        
+
 
         const recipient = await prisma.account.findUnique({
           where: { uuid: data.to },
@@ -24,7 +27,9 @@ module.exports = function payement(data, createBy) {
             user: true,
           },
         });
+        console.log(recipient)
         if (!sender || !recipient) {
+          console.log("pb detectionaccout")
           reject("échec du payement");
           throw new Error(`échec du payement`);
         }

@@ -3,7 +3,7 @@ const { decryptCard } = require("$services/function/utile");
 const yup = require("yup");
 const bcrypt = require("bcrypt");
 const process_payement = require("$services/bancaire/payement");
-
+const pushNotification = require("$services/system/notification/pushNotification");
 const payement = async (req, res) => {
   /**
    * on verifie que l'action (donner encryper est bien renseigner)
@@ -28,7 +28,6 @@ const payement = async (req, res) => {
     /**
      * recuperation de la data liee a la carte
      */
-
     let dataDebiter = await db.cards.findUnique({
       where: {
         uuid: decrypt.idcard,
@@ -65,11 +64,28 @@ const payement = async (req, res) => {
       req.user
     )
       .then((response) => {
+        pushNotification(
+          {
+            sound: "default",
+            body: `votre payement de ${decrypt.amount} kmf a était accepter 💸 `,
+            title: "mes comptes riale-online",
+          },
+          dataCrediteur.user_uuid
+        );
         return res.status(201).json({
           message: "le payement  bien éffectuerr",
         });
       })
       .catch((e) => {
+        console.log(e);
+        pushNotification(
+          {
+            sound: "default",
+            body: `votre payement de ${decrypt.amount} kmf a était refuser ❌`,
+            title: "mes comptes riale-online",
+          },
+          dataCrediteur.user_uuid
+        );
         return res.status(400).json({
           message: e,
         });

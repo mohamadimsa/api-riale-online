@@ -2,14 +2,28 @@ const { Expo } = require("expo-server-sdk");
 // Créer un nouveau client Expo SDK
 // en option, fournir un jeton d'accès si vous avez activé la sécurité push
 let expo = new Expo(/**{ accessToken: process.env.EXPO_ACCESS_TOKEN}**/);
+const db = require("$db");
 
 /**
  *cette fonction nous permet d'envoyer des pushNotification grouper ayant un message identique
  * @param {Objet} message ce message qu'on souhaite envoyer
  * {body ,title ,data,badge}
- * @param {Array} pushToken tableau contenant l'ensemble des des push token
+ * @param {String}  user_uuid
  */
-module.exports = pushNotification = (message, pushToken) => {
+
+module.exports = pushNotification = async (message, user_uuid) => {
+  const user = await db.tokenPushNotification.findMany({
+    where: {
+      user_uuid,
+    },
+  });
+  console.log(user);
+
+  let pushToken = [];
+  user.map((e) => {
+    pushToken.push(e.token);
+  });
+
   //   // Crée les messages que tu veux envoyer aux clients
   let messages = [];
   for (let somePushTokens of pushToken) {
@@ -116,7 +130,4 @@ module.exports = pushNotification = (message, pushToken) => {
     }
   };
 };
-pushNotification({sound: "default",
-body: "tg",
-title: "mes comptes riale-online",
-badge: 3},["ExponentPushToken[4Kadf2P6EYo6SW0b3GZuiB]"])
+

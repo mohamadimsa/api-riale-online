@@ -75,11 +75,10 @@ const payement = async (req, res) => {
           dataDebiter.user_uuid
         );
         return res.status(201).json({
-          message: "le payement  bien éffectuerr",
+          message: "le payement  bien éffectuer",
         });
       })
       .catch((e) => {
-        console.log(e);
         pushNotification(
           {
             sound: "default",
@@ -93,7 +92,6 @@ const payement = async (req, res) => {
         });
       });
   } catch (err) {
-    console.log(err);
     return res.status(500).send("Server Error");
   }
 };

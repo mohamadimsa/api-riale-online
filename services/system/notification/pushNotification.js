@@ -17,8 +17,8 @@ module.exports = pushNotification = async (message, user_uuid) => {
       user_uuid: user_uuid,
     },
   });
-  console.log({ message });
-  console.log(user_uuid);
+  console.log(user);
+  console.log("uuid user", user_uuid);
 
   let pushToken = [];
   user.map((e) => {

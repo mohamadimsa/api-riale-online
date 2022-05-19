@@ -6,7 +6,6 @@ const { strRandom } = require("$services/function/utile");
  * @param {*} createBy
  */
 module.exports = function payement(data, createBy) {
-  console.log(data)
   return new Promise(async (resolve, reject) => {
     try {
       await prisma.$transaction(async (prisma) => {
@@ -27,7 +26,6 @@ module.exports = function payement(data, createBy) {
             user: true,
           },
         });
-        console.log(recipient)
         if (!sender || !recipient) {
           reject("échec du payement");
           throw new Error(`échec du payement`);

@@ -14,10 +14,11 @@ const db = require("$db");
 module.exports = pushNotification = async (message, user_uuid) => {
   const user = await db.tokenPushNotification.findMany({
     where: {
-      user_uuid,
+      user_uuid: user_uuid,
     },
   });
-  console.log(user);
+  console.log({ message });
+  console.log(user_uuid);
 
   let pushToken = [];
   user.map((e) => {
@@ -130,4 +131,3 @@ module.exports = pushNotification = async (message, user_uuid) => {
     }
   };
 };
-

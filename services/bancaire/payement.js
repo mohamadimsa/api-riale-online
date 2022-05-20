@@ -16,9 +16,6 @@ module.exports = function payement(data, createBy) {
             user: true,
           },
         });
-     
-        
-
 
         const recipient = await prisma.account.findUnique({
           where: { uuid: data.to },
@@ -29,8 +26,10 @@ module.exports = function payement(data, createBy) {
         if (!sender || !recipient) {
           reject("échec du payement");
           throw new Error(`échec du payement`);
+        } else if (sender.uuid == recipient.uuid) {
+          reject("échec du payement");
+          throw new Error(`échec du payement`);
         }
-
         // 1. Decremente le compte de l'envoyeur
         let accountSender = await prisma.account.update({
           data: {

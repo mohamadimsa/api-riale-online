@@ -17,14 +17,12 @@ module.exports = pushNotification = async (message, user_uuid) => {
       user_uuid: user_uuid,
     },
   });
-  console.log(user);
-  console.log("uuid user", user_uuid);
 
   let pushToken = [];
   user.map((e) => {
     pushToken.push(e.token);
   });
-  console.log(user);
+
   //   // Crée les messages que tu veux envoyer aux clients
   let messages = [];
   for (let somePushTokens of pushToken) {

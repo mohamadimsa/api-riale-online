@@ -46,7 +46,6 @@ const payement = async (req, res) => {
       },
     });
 
-    console.log(dataCrediteur);
 
     if (!dataCrediteur.length) {
       return res.status(401).json({

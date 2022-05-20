@@ -30,8 +30,8 @@ module.exports = function payement(data, createBy) {
           reject("échec du payement");
           throw new Error(`échec du payement`);
         }
-        console.log("sender", sender.uuid);
-        console.log("recipient", recipient.uuid);
+        console.log("sender : ", sender.uuid);
+        console.log("recipient : ", recipient.uuid);
         // 1. Decremente le compte de l'envoyeur
         let accountSender = await prisma.account.update({
           data: {

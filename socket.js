@@ -9,7 +9,7 @@ const socketConnection = (ioServer) => {
     console.log("connection socket ");
     socket.on("authSocket", (e) => {
       console.log(e);
-      if (e.uuid) {
+      if (e.user && e.forename) {
         console.log("connection de l'utilisateur : " + e.forename);
         io.to(e.uuid);
       }
@@ -19,9 +19,6 @@ const socketConnection = (ioServer) => {
       if (err && err.message === "unauthorized event") {
         socket.disconnect();
       }
-    });
-    socket.on("disconnect", (err) => {
-      console.log("ERROR SOCKET :", err);
     });
   });
 };

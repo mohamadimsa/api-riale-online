@@ -52,4 +52,16 @@ module.exports = [
     functionName: "getAccount",
     perm: ["SUPERVISOR"],
   },
+  /**
+   * @desciption cette route nous permet de recuperer les compte liée a un utilisateur
+   * @Route : /account/{uuid}
+   * @Method : get
+   * uuid (compte)
+   */
+  {
+    url: "/accountHistorical/:uuid",
+    method: "get",
+    func: [Controller["HistoriqueController@getHistoriqueOpsration"]],
+  
+  },
 ];

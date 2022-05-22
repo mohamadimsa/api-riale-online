@@ -6,6 +6,7 @@ const socketConnection = (ioServer) => {
 
   io.on("connection", (socket) => {
     //socket permettant de mettre un user dans la rooms lorsque il est connecter
+    console.log("connection socket ");
     socket.on("authSocket", (e) => {
       if (e.uuid && e.forename) {
         console.log("connection de l'utilisateur : " + e.forename);

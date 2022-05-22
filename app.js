@@ -4,6 +4,8 @@ const app = express();
 const http = require("http");
 
 const server = http.createServer(app);
+
+
 (async () => {
   const cors = require("cors");
   const morgan = require("morgan");
@@ -110,21 +112,27 @@ const server = http.createServer(app);
   server.listen(7001, () => {
     console.log("[SERVER] start server on port 7001");
   });
- 
+  const socketServer = http.createServer(app)
+  const serverSocket = socketServer.listen(4501, () => console.log('Serveur socket lancé sur le port 4501'))
+// server socket
 
-  // notification server
-  const {
-    socketConnection,
-  } = require("$services/system/notification/socket/connection");
+const { socketConnection } = require('./socket')
+  const io = require('socket.io')(serverSocket, {
+    cors: {
+      origin: '*',
+      allowedHeaders: ['content-type', 'X-Requested-With'],
+      optionsSuccessStatus: 200,
+      methods: ['GET', 'POST'],
+    },
+  //  path: '/socket.io/riale-online',
+   // transports: ['websocket'],
+  })
   try {
-    socketConnection(server);
+    socketConnection(io)
   } catch (e) {
-    console.log(e.toString());
+    console.log('ERROR SERVER SOCKET:', e)
   }
+ 
 })();
-
-
-
-
 
 module.exports = app;

@@ -34,6 +34,8 @@ const payement = async (req, res) => {
       },
     });
 
+    console.log(dataDebiter.account_uuid);
+
     /**
      * recuperation du compte pro crediteur
      * si l'utilisateur ne possède pas de compe pro il n'est pas sencer pour effectuer des encaissements
@@ -45,7 +47,6 @@ const payement = async (req, res) => {
         user: true,
       },
     });
-
 
     if (!dataCrediteur.length) {
       return res.status(401).json({
